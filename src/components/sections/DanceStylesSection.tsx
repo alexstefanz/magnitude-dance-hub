@@ -35,7 +35,7 @@ export type DanceStyle = {
 export function DanceStyleCard({ style }: { style: DanceStyle }) {
   const href = stylePath(style.slug);
   return (
-    <article className="card-elevated group flex flex-col overflow-hidden">
+    <article className="card-elevated group flex h-full flex-col overflow-hidden">
       <div className="aspect-4/3 overflow-hidden">
         <ImageOrPlaceholder
           src={style.image_url || STYLE_IMAGES[style.slug] || null}
