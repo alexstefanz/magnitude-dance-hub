@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Music2 } from "lucide-react";
+import { Facebook, Instagram, MapPin, Music2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/hooks/use-settings";
 
@@ -8,6 +8,7 @@ export function SocialSection() {
     { label: "Instagram", url: get("instagram_url"), icon: Instagram },
     { label: "TikTok", url: get("tiktok_url"), icon: Music2 },
     { label: "Facebook", url: get("facebook_url"), icon: Facebook },
+    { label: "Google Business", url: get("google_maps_url"), icon: MapPin },
   ];
 
   return (

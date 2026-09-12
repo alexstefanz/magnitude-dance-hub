@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Check, Star } from "lucide-react";
+import { CalendarCheck, Check, Star } from "lucide-react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Badge } from "@/components/ui/badge";
 import { pricingQuery } from "@/lib/content";
@@ -59,13 +59,15 @@ export function PricingCard({ pkg }: { pkg: PricingPackage }) {
           {pkg.eligibility_notes}
         </p>
       )}
-      <WhatsAppButton
-        className="mt-5 w-full"
-        size="default"
-        variant="hero"
-        label="Rezervă locul"
-        message={`Bună! Aș dori detalii despre abonamentul „${pkg.name}” de la Magnitude Dance.`}
-      />
+      <div className="mt-5">
+        <WhatsAppButton
+          className="w-full border-primary/40 bg-transparent text-primary shadow-none hover:bg-primary/10"
+          size="default"
+          variant="outline"
+          label="Rezervă locul"
+          message={`Bună! Aș dori detalii despre abonamentul „${pkg.name}” de la Magnitude Dance.`}
+        />
+      </div>
     </article>
   );
 }
@@ -96,7 +98,7 @@ export function PricingSection({ compactCategory }: { compactCategory?: string }
             <h3 className="font-display text-xl font-bold">
               {CATEGORY_LABELS[category] ?? category}
             </h3>
-            <div className="mt-5 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-5 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
               {packages
                 .filter((p) => p.category === category)
                 .map((pkg) => (

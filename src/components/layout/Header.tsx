@@ -4,6 +4,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import logoAsset from "@/assets/magnitude-logo-white.png.asset.json";
 
 export const COURSE_LINKS = [
   { label: "Salsa", to: "/salsa" },
@@ -31,12 +32,10 @@ export function Header() {
   const [coursesOpen, setCoursesOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/90 text-ink-foreground backdrop-blur-lg">
+    <header className="absolute inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/20 text-ink-foreground backdrop-blur-sm">
       <div className="container-page flex h-16 items-center justify-between gap-4 md:h-20">
         <Link to="/" className="flex items-center gap-2" aria-label="Magnitude Dance – acasă">
-          <span className="font-display text-lg font-extrabold tracking-tight md:text-xl">
-            MAGNITUDE<span className="text-accent"> DANCE</span>
-          </span>
+          <img src={logoAsset.url} alt="Magnitude Dance" className="h-10 w-auto md:h-12" />
         </Link>
 
         <nav aria-label="Navigație principală" className="hidden items-center gap-1 xl:flex">
