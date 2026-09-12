@@ -100,20 +100,34 @@ export function PricingSection({ compactCategory }: { compactCategory?: string }
 
         {isLoading && <Skeleton className="mt-8 h-64 w-full rounded-2xl" />}
 
-        {categories.map((category) => (
-          <div key={category} className="mt-10">
-            <h3 className="font-display text-xl font-bold">
-              {CATEGORY_LABELS[category] ?? category}
-            </h3>
-            <div className="mt-5 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-              {packages
-                .filter((p) => p.category === category)
-                .map((pkg) => (
-                  <PricingCard key={pkg.id} pkg={pkg} />
+        {categories.map((category) => {
+          const categoryPackages = packages.filter((p) => p.category === category);
+          const isGroup = category === "grup";
+          return (
+            <div key={category} className="mt-10">
+              <h3 className="font-display text-xl font-bold">
+                {CATEGORY_LABELS[category] ?? category}
+              </h3>
+              <div
+                className={cn(
+                  "mt-5 grid gap-6",
+                  isGroup ? "grid-cols-6" : "sm:grid-cols-2 xl:grid-cols-4",
+                )}
+              >
+                {categoryPackages.map((pkg, idx) => (
+                  <PricingCard
+                    key={pkg.id}
+                    pkg={pkg}
+                    className={cn(
+                      isGroup && idx < 2 && "col-span-6 md:col-span-3",
+                      isGroup && idx >= 2 && "col-span-6 md:col-span-2",
+                    )}
+                  />
                 ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
