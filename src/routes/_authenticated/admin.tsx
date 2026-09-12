@@ -261,6 +261,7 @@ function AdminPage() {
             <TabsTrigger value="beneficii">De ce Magnitude</TabsTrigger>
             <TabsTrigger value="recenzii">Recenzii</TabsTrigger>
             <TabsTrigger value="setari">Setări</TabsTrigger>
+            <TabsTrigger value="utilizatori">Utilizatori</TabsTrigger>
           </TabsList>
 
           <div className="mt-6">
