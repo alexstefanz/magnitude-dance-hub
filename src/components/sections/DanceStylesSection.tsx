@@ -15,6 +15,7 @@ export type DanceStyle = {
 };
 
 export function DanceStyleCard({ style }: { style: DanceStyle }) {
+  const href = stylePath(style.slug);
   return (
     <article className="card-elevated group flex flex-col overflow-hidden">
       <div className="aspect-4/3 overflow-hidden">
