@@ -10,33 +10,292 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as BachataRouteImport } from './routes/bachata'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CoregrafiiRouteImport } from './routes/coregrafii'
+import { Route as DansModernCopiiRouteImport } from './routes/dans-modern-copii'
+import { Route as DansulMirilorRouteImport } from './routes/dansul-mirilor'
+import { Route as DespreNoiRouteImport } from './routes/despre-noi'
+import { Route as EvenimenteRouteImport } from './routes/evenimente'
+import { Route as FeedbackRouteImport } from './routes/feedback'
+import { Route as InstructoriRouteImport } from './routes/instructori'
+import { Route as KizombaRouteImport } from './routes/kizomba'
+import { Route as LadyStylingRouteImport } from './routes/lady-styling'
+import { Route as OrarRouteImport } from './routes/orar'
+import { Route as PartyRouteImport } from './routes/party'
+import { Route as PoliticaConfidentialitateRouteImport } from './routes/politica-confidentialitate'
+import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
+import { Route as RuedaDeCasinoRouteImport } from './routes/rueda-de-casino'
+import { Route as SalsaRouteImport } from './routes/salsa'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BachataRoute = BachataRouteImport.update({
+  id: '/bachata',
+  path: '/bachata',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoregrafiiRoute = CoregrafiiRouteImport.update({
+  id: '/coregrafii',
+  path: '/coregrafii',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DansModernCopiiRoute = DansModernCopiiRouteImport.update({
+  id: '/dans-modern-copii',
+  path: '/dans-modern-copii',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DansulMirilorRoute = DansulMirilorRouteImport.update({
+  id: '/dansul-mirilor',
+  path: '/dansul-mirilor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DespreNoiRoute = DespreNoiRouteImport.update({
+  id: '/despre-noi',
+  path: '/despre-noi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvenimenteRoute = EvenimenteRouteImport.update({
+  id: '/evenimente',
+  path: '/evenimente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstructoriRoute = InstructoriRouteImport.update({
+  id: '/instructori',
+  path: '/instructori',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KizombaRoute = KizombaRouteImport.update({
+  id: '/kizomba',
+  path: '/kizomba',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LadyStylingRoute = LadyStylingRouteImport.update({
+  id: '/lady-styling',
+  path: '/lady-styling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrarRoute = OrarRouteImport.update({
+  id: '/orar',
+  path: '/orar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartyRoute = PartyRouteImport.update({
+  id: '/party',
+  path: '/party',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PoliticaConfidentialitateRoute =
+  PoliticaConfidentialitateRouteImport.update({
+    id: '/politica-confidentialitate',
+    path: '/politica-confidentialitate',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PoliticaCookiesRoute = PoliticaCookiesRouteImport.update({
+  id: '/politica-cookies',
+  path: '/politica-cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RuedaDeCasinoRoute = RuedaDeCasinoRouteImport.update({
+  id: '/rueda-de-casino',
+  path: '/rueda-de-casino',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SalsaRoute = SalsaRouteImport.update({
+  id: '/salsa',
+  path: '/salsa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/bachata': typeof BachataRoute
+  '/contact': typeof ContactRoute
+  '/coregrafii': typeof CoregrafiiRoute
+  '/dans-modern-copii': typeof DansModernCopiiRoute
+  '/dansul-mirilor': typeof DansulMirilorRoute
+  '/despre-noi': typeof DespreNoiRoute
+  '/evenimente': typeof EvenimenteRoute
+  '/feedback': typeof FeedbackRoute
+  '/instructori': typeof InstructoriRoute
+  '/kizomba': typeof KizombaRoute
+  '/lady-styling': typeof LadyStylingRoute
+  '/orar': typeof OrarRoute
+  '/party': typeof PartyRoute
+  '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/rueda-de-casino': typeof RuedaDeCasinoRoute
+  '/salsa': typeof SalsaRoute
+  '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/bachata': typeof BachataRoute
+  '/contact': typeof ContactRoute
+  '/coregrafii': typeof CoregrafiiRoute
+  '/dans-modern-copii': typeof DansModernCopiiRoute
+  '/dansul-mirilor': typeof DansulMirilorRoute
+  '/despre-noi': typeof DespreNoiRoute
+  '/evenimente': typeof EvenimenteRoute
+  '/feedback': typeof FeedbackRoute
+  '/instructori': typeof InstructoriRoute
+  '/kizomba': typeof KizombaRoute
+  '/lady-styling': typeof LadyStylingRoute
+  '/orar': typeof OrarRoute
+  '/party': typeof PartyRoute
+  '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/rueda-de-casino': typeof RuedaDeCasinoRoute
+  '/salsa': typeof SalsaRoute
+  '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/bachata': typeof BachataRoute
+  '/contact': typeof ContactRoute
+  '/coregrafii': typeof CoregrafiiRoute
+  '/dans-modern-copii': typeof DansModernCopiiRoute
+  '/dansul-mirilor': typeof DansulMirilorRoute
+  '/despre-noi': typeof DespreNoiRoute
+  '/evenimente': typeof EvenimenteRoute
+  '/feedback': typeof FeedbackRoute
+  '/instructori': typeof InstructoriRoute
+  '/kizomba': typeof KizombaRoute
+  '/lady-styling': typeof LadyStylingRoute
+  '/orar': typeof OrarRoute
+  '/party': typeof PartyRoute
+  '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
+  '/rueda-de-casino': typeof RuedaDeCasinoRoute
+  '/salsa': typeof SalsaRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/bachata'
+    | '/contact'
+    | '/coregrafii'
+    | '/dans-modern-copii'
+    | '/dansul-mirilor'
+    | '/despre-noi'
+    | '/evenimente'
+    | '/feedback'
+    | '/instructori'
+    | '/kizomba'
+    | '/lady-styling'
+    | '/orar'
+    | '/party'
+    | '/politica-confidentialitate'
+    | '/politica-cookies'
+    | '/rueda-de-casino'
+    | '/salsa'
+    | '/admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/bachata'
+    | '/contact'
+    | '/coregrafii'
+    | '/dans-modern-copii'
+    | '/dansul-mirilor'
+    | '/despre-noi'
+    | '/evenimente'
+    | '/feedback'
+    | '/instructori'
+    | '/kizomba'
+    | '/lady-styling'
+    | '/orar'
+    | '/party'
+    | '/politica-confidentialitate'
+    | '/politica-cookies'
+    | '/rueda-de-casino'
+    | '/salsa'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/bachata'
+    | '/contact'
+    | '/coregrafii'
+    | '/dans-modern-copii'
+    | '/dansul-mirilor'
+    | '/despre-noi'
+    | '/evenimente'
+    | '/feedback'
+    | '/instructori'
+    | '/kizomba'
+    | '/lady-styling'
+    | '/orar'
+    | '/party'
+    | '/politica-confidentialitate'
+    | '/politica-cookies'
+    | '/rueda-de-casino'
+    | '/salsa'
+    | '/_authenticated/admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  BachataRoute: typeof BachataRoute
+  ContactRoute: typeof ContactRoute
+  CoregrafiiRoute: typeof CoregrafiiRoute
+  DansModernCopiiRoute: typeof DansModernCopiiRoute
+  DansulMirilorRoute: typeof DansulMirilorRoute
+  DespreNoiRoute: typeof DespreNoiRoute
+  EvenimenteRoute: typeof EvenimenteRoute
+  FeedbackRoute: typeof FeedbackRoute
+  InstructoriRoute: typeof InstructoriRoute
+  KizombaRoute: typeof KizombaRoute
+  LadyStylingRoute: typeof LadyStylingRoute
+  OrarRoute: typeof OrarRoute
+  PartyRoute: typeof PartyRoute
+  PoliticaConfidentialitateRoute: typeof PoliticaConfidentialitateRoute
+  PoliticaCookiesRoute: typeof PoliticaCookiesRoute
+  RuedaDeCasinoRoute: typeof RuedaDeCasinoRoute
+  SalsaRoute: typeof SalsaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +307,181 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bachata': {
+      id: '/bachata'
+      path: '/bachata'
+      fullPath: '/bachata'
+      preLoaderRoute: typeof BachataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coregrafii': {
+      id: '/coregrafii'
+      path: '/coregrafii'
+      fullPath: '/coregrafii'
+      preLoaderRoute: typeof CoregrafiiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dans-modern-copii': {
+      id: '/dans-modern-copii'
+      path: '/dans-modern-copii'
+      fullPath: '/dans-modern-copii'
+      preLoaderRoute: typeof DansModernCopiiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dansul-mirilor': {
+      id: '/dansul-mirilor'
+      path: '/dansul-mirilor'
+      fullPath: '/dansul-mirilor'
+      preLoaderRoute: typeof DansulMirilorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/despre-noi': {
+      id: '/despre-noi'
+      path: '/despre-noi'
+      fullPath: '/despre-noi'
+      preLoaderRoute: typeof DespreNoiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evenimente': {
+      id: '/evenimente'
+      path: '/evenimente'
+      fullPath: '/evenimente'
+      preLoaderRoute: typeof EvenimenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/instructori': {
+      id: '/instructori'
+      path: '/instructori'
+      fullPath: '/instructori'
+      preLoaderRoute: typeof InstructoriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kizomba': {
+      id: '/kizomba'
+      path: '/kizomba'
+      fullPath: '/kizomba'
+      preLoaderRoute: typeof KizombaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lady-styling': {
+      id: '/lady-styling'
+      path: '/lady-styling'
+      fullPath: '/lady-styling'
+      preLoaderRoute: typeof LadyStylingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orar': {
+      id: '/orar'
+      path: '/orar'
+      fullPath: '/orar'
+      preLoaderRoute: typeof OrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/party': {
+      id: '/party'
+      path: '/party'
+      fullPath: '/party'
+      preLoaderRoute: typeof PartyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-confidentialitate': {
+      id: '/politica-confidentialitate'
+      path: '/politica-confidentialitate'
+      fullPath: '/politica-confidentialitate'
+      preLoaderRoute: typeof PoliticaConfidentialitateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-cookies': {
+      id: '/politica-cookies'
+      path: '/politica-cookies'
+      fullPath: '/politica-cookies'
+      preLoaderRoute: typeof PoliticaCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rueda-de-casino': {
+      id: '/rueda-de-casino'
+      path: '/rueda-de-casino'
+      fullPath: '/rueda-de-casino'
+      preLoaderRoute: typeof RuedaDeCasinoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/salsa': {
+      id: '/salsa'
+      path: '/salsa'
+      fullPath: '/salsa'
+      preLoaderRoute: typeof SalsaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  BachataRoute: BachataRoute,
+  ContactRoute: ContactRoute,
+  CoregrafiiRoute: CoregrafiiRoute,
+  DansModernCopiiRoute: DansModernCopiiRoute,
+  DansulMirilorRoute: DansulMirilorRoute,
+  DespreNoiRoute: DespreNoiRoute,
+  EvenimenteRoute: EvenimenteRoute,
+  FeedbackRoute: FeedbackRoute,
+  InstructoriRoute: InstructoriRoute,
+  KizombaRoute: KizombaRoute,
+  LadyStylingRoute: LadyStylingRoute,
+  OrarRoute: OrarRoute,
+  PartyRoute: PartyRoute,
+  PoliticaConfidentialitateRoute: PoliticaConfidentialitateRoute,
+  PoliticaCookiesRoute: PoliticaCookiesRoute,
+  RuedaDeCasinoRoute: RuedaDeCasinoRoute,
+  SalsaRoute: SalsaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

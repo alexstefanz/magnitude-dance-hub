@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { campaignsQuery } from "@/lib/content";
 import { useSettings } from "@/hooks/use-settings";
+import heroImage from "@/assets/hero-dance.jpg";
 
 type Campaign = {
   id: string;
@@ -36,7 +37,14 @@ export function HeroSection() {
             aria-hidden="true"
           />
         ) : (
-          <div className="size-full bg-[image:var(--gradient-ink)]" aria-hidden="true" />
+          <img
+            src={heroImage}
+            alt=""
+            width={1920}
+            height={1280}
+            className="size-full object-cover"
+            aria-hidden="true"
+          />
         )}
         <div
           className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,oklch(0.5_0.24_305/0.45),transparent_60%),linear-gradient(to_top,oklch(0.14_0.02_300/0.95),oklch(0.14_0.02_300/0.6))]"
@@ -44,7 +52,7 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="container-page flex min-h-[78vh] flex-col justify-center py-20 md:min-h-[86vh]">
+      <div className="container-page flex min-h-[34rem] flex-col justify-end py-16 md:min-h-[40rem] md:py-20">
         <p className="eyebrow text-accent">Școală &amp; comunitate de dans în Iași</p>
         <h1 className="mt-4 max-w-4xl text-5xl leading-[1.05] md:text-7xl">
           {get("hero_title", "Magnitude Dance")}
