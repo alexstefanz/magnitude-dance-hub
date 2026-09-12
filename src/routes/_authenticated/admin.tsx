@@ -212,7 +212,7 @@ function AdminPage() {
     );
   }
 
-  if (!roleQuery.data) {
+  if (!roleQuery.data?.isAdmin) {
     return (
       <div className="container-page flex min-h-screen flex-col items-center justify-center gap-4 text-center">
         <ShieldAlert className="size-12 text-destructive" aria-hidden="true" />
