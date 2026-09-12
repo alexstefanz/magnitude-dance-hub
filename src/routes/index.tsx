@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { DanceStylesSection } from "@/components/sections/DanceStylesSection";
-import { TodaySchedule } from "@/components/schedule/TodaySchedule";
 import { WhyMagnitude } from "@/components/sections/WhyMagnitude";
 import { InstructorsIntroSection } from "@/components/sections/InstructorsSection";
 import { PricingSection } from "@/components/sections/PricingSection";
@@ -59,7 +58,6 @@ function HomePage() {
     <SiteLayout>
       <HeroSection />
       <DanceStylesSection />
-      <TodaySchedule />
       <WhyMagnitude />
       <InstructorsIntroSection />
       <PricingSection />

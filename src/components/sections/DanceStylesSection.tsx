@@ -6,6 +6,23 @@ import { ImageOrPlaceholder } from "@/components/ImagePlaceholder";
 import { danceStylesQuery } from "@/lib/content";
 import { stylePath } from "@/lib/routes";
 import { Skeleton } from "@/components/ui/skeleton";
+import salsaAsset from "@/assets/style-salsa.jpg.asset.json";
+import bachataAsset from "@/assets/style-bachata.jpg.asset.json";
+import kizombaAsset from "@/assets/style-kizomba.jpg.asset.json";
+import weddingAsset from "@/assets/style-wedding.jpg.asset.json";
+import ruedaAsset from "@/assets/style-rueda.jpg.asset.json";
+import kidsAsset from "@/assets/style-kids.jpg.asset.json";
+import ladyAsset from "@/assets/style-lady.jpg.asset.json";
+
+const STYLE_IMAGES: Record<string, string> = {
+  salsa: salsaAsset.url,
+  bachata: bachataAsset.url,
+  kizomba: kizombaAsset.url,
+  "dansul-mirilor": weddingAsset.url,
+  "rueda-de-casino": ruedaAsset.url,
+  "dans-modern-copii": kidsAsset.url,
+  "lady-styling": ladyAsset.url,
+};
 
 export type DanceStyle = {
   id: string;
@@ -21,7 +38,7 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
     <article className="card-elevated group flex flex-col overflow-hidden">
       <div className="aspect-4/3 overflow-hidden">
         <ImageOrPlaceholder
-          src={style.image_url}
+          src={style.image_url || STYLE_IMAGES[style.slug] || null}
           alt={`Curs de ${style.name} la Magnitude Dance Iași`}
           label="[Fotografie curs – de înlocuit]"
           imageClassName="transition-transform duration-500 group-hover:scale-105"

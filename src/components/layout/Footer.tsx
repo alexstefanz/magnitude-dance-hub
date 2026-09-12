@@ -3,6 +3,7 @@ import { Facebook, Instagram, Mail, MapPin, Music2, Phone } from "lucide-react";
 import { useSettings } from "@/hooks/use-settings";
 import { COURSE_LINKS } from "@/components/layout/Header";
 import { telLink } from "@/lib/whatsapp";
+import logoAsset from "@/assets/magnitude-logo-white.png.asset.json";
 
 const QUICK_LINKS = [
   { label: "Acasă", to: "/" },
@@ -23,9 +24,7 @@ export function Footer() {
     <footer className="surface-ink">
       <div className="container-page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-xl font-extrabold">
-            MAGNITUDE<span className="text-accent"> DANCE</span>
-          </p>
+          <img src={logoAsset.url} alt="Magnitude Dance" className="h-20 w-auto" />
           <p className="mt-3 text-sm text-ink-foreground/75">
             Comunitatea de dans latino din Iași: cursuri de salsa, bachata și kizomba, petreceri
             săptămânale, evenimente și oameni care se bucură împreună de dans.
@@ -94,6 +93,11 @@ export function Footer() {
             {get("tiktok_url") && (
               <SocialIcon href={get("tiktok_url")} label="TikTok">
                 <Music2 className="size-5" />
+              </SocialIcon>
+            )}
+            {get("google_maps_url") && (
+              <SocialIcon href={get("google_maps_url")} label="Google Business">
+                <MapPin className="size-5" />
               </SocialIcon>
             )}
           </div>
