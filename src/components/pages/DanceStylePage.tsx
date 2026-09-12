@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, Check } from "lucide-react";
 import { PageHero, SiteLayout } from "@/components/layout/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -9,6 +9,7 @@ import { ScheduleCard, type ScheduleEntry } from "@/components/schedule/Schedule
 import { InstructorCard, type Instructor } from "@/components/sections/InstructorsSection";
 import { RegistrationForm } from "@/components/forms/RegistrationForm";
 import { PricingSection } from "@/components/sections/PricingSection";
+import { VideoModal } from "@/components/VideoModal";
 import { danceStylesQuery, instructorsQuery, scheduleQuery, DAYS } from "@/lib/content";
 
 type Style = {
@@ -17,10 +18,11 @@ type Style = {
   name: string;
   short_description: string | null;
   long_description: string | null;
-  benefits: string | null;
-  target_audience: string | null;
+  benefits: string[];
+  learning_points: string[];
   image_url: string | null;
-  video_url: string | null;
+  hero_image_url: string | null;
+  reel_url: string | null;
 };
 
 export function DanceStylePage({ slug }: { slug: string }) {
@@ -28,12 +30,12 @@ export function DanceStylePage({ slug }: { slug: string }) {
   const { data: schedule } = useQuery(scheduleQuery);
   const { data: instructors } = useQuery(instructorsQuery);
 
-  const style = ((styles ?? []) as Style[]).find((s) => s.slug === slug);
+  const style = (styles as Style[] | undefined)?.find((s) => s.slug === slug);
   const entries = ((schedule ?? []) as ScheduleEntry[]).filter(
-    (entry) => entry.dance_style_id === style?.id,
+    (entry) => style && entry.dance_style_id === style.id,
   );
   const styleInstructors = ((instructors ?? []) as Instructor[]).filter((instructor) =>
-    style ? instructor.styles?.includes(style.name) : false,
+    style ? (instructor.styles ?? []).includes(style.name) : false,
   );
 
   const title = style?.name ?? "Curs de dans";
@@ -61,27 +63,46 @@ export function DanceStylePage({ slug }: { slug: string }) {
         <div className="container-page grid gap-10 lg:grid-cols-2 lg:items-start">
           <div className="overflow-hidden rounded-2xl">
             <ImageOrPlaceholder
-              src={style?.image_url ?? null}
+              src={style?.hero_image_url ?? style?.image_url ?? null}
               alt={`Curs de ${title} la Magnitude Dance Iași`}
               label="[Fotografie curs – de înlocuit]"
               className="aspect-4/3"
             />
+            {style?.reel_url && (
+              <div className="mt-4">
+                <VideoModal url={style.reel_url} title={`Reel ${title}`} />
+              </div>
+            )}
           </div>
           <div className="space-y-5">
             <h2 className="text-3xl md:text-4xl">Despre cursul de {title}</h2>
             <p className="text-muted-foreground">
               {style?.long_description ?? "[Descriere detaliată – de completat]"}
             </p>
-            {style?.benefits && (
+            {style?.benefits && style.benefits.length > 0 && (
               <div>
                 <h3 className="font-display text-lg font-bold">Beneficii</h3>
-                <p className="mt-2 text-muted-foreground">{style.benefits}</p>
+                <ul className="mt-2 space-y-2">
+                  {style.benefits.map((benefit) => (
+                    <li key={benefit} className="flex gap-2 text-muted-foreground">
+                      <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                      {benefit}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
-            {style?.target_audience && (
+            {style?.learning_points && style.learning_points.length > 0 && (
               <div>
-                <h3 className="font-display text-lg font-bold">Pentru cine este</h3>
-                <p className="mt-2 text-muted-foreground">{style.target_audience}</p>
+                <h3 className="font-display text-lg font-bold">Ce înveți</h3>
+                <ul className="mt-2 space-y-2">
+                  {style.learning_points.map((point) => (
+                    <li key={point} className="flex gap-2 text-muted-foreground">
+                      <Check className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
+                      {point}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
@@ -100,15 +121,16 @@ export function DanceStylePage({ slug }: { slug: string }) {
               {title}.
             </p>
           ) : (
-            <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-8 space-y-4">
               {entries.map((entry) => (
-                <ScheduleCard
-                  key={entry.id}
-                  entry={entry}
-                  dayLabel={DAYS[(entry.day_of_week ?? 1) - 1]}
-                />
+                <li key={entry.id}>
+                  <p className="mb-1 text-sm font-semibold text-muted-foreground">
+                    {DAYS[entry.day_of_week - 1] ?? ""}
+                  </p>
+                  <ScheduleCard entry={entry} />
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
       </section>
@@ -141,7 +163,7 @@ export function DanceStylePage({ slug }: { slug: string }) {
             Completează formularul și te contactăm cu detaliile grupei potrivite pentru tine.
           </p>
           <div className="mt-8">
-            <RegistrationForm defaultCourse={style?.name} sourcePage={`/${slug}`} />
+            <RegistrationForm defaultCourse={style?.name ?? ""} sourcePage={`/${slug}`} />
           </div>
         </div>
       </section>

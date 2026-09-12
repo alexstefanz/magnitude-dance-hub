@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 
 export type ScheduleEntry = {
   id: string;
+  dance_style_id: string | null;
   day_of_week: number;
   start_time: string;
   end_time: string | null;
