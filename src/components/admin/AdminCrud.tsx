@@ -3,6 +3,23 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+
+// Dynamic table access: the generated client types require literal table names,
+// so this admin helper talks to Supabase through an untyped view of the client.
+// RLS (admin-only policies) is what actually authorises every call below.
+type UntypedClient = {
+  from: (table: string) => {
+    select: (columns: string) => { order: (column: string) => Promise<{ data: unknown; error: { message: string } | null }> };
+    insert: (values: Record<string, unknown>) => Promise<{ error: { message: string } | null }>;
+    update: (values: Record<string, unknown>) => {
+      eq: (column: string, value: string) => Promise<{ error: { message: string } | null }>;
+    };
+    delete: () => {
+      eq: (column: string, value: string) => Promise<{ error: { message: string } | null }>;
+    };
+  };
+};
+const db = supabase as unknown as UntypedClient;
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -48,7 +65,7 @@ export function AdminCrud({
   const listQuery = useQuery({
     queryKey: ["admin", table],
     queryFn: async () => {
-      const { data, error } = await supabase.from(table).select("*").order(orderBy);
+      const { data, error } = await db.from(table).select("*").order(orderBy);
       if (error) throw new Error(error.message);
       return (data ?? []) as Row[];
     },
@@ -60,8 +77,8 @@ export function AdminCrud({
       const payload = { ...values };
       delete payload["id"];
       const result = id
-        ? await supabase.from(table).update(payload).eq("id", id)
-        : await supabase.from(table).insert(payload);
+        ? await db.from(table).update(payload).eq("id", id)
+        : await db.from(table).insert(payload);
       if (result.error) throw new Error(result.error.message);
     },
     onSuccess: async () => {
@@ -75,7 +92,7 @@ export function AdminCrud({
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(table).delete().eq("id", id);
+      const { error } = await db.from(table).delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: async () => {
