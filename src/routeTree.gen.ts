@@ -14,14 +14,12 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BachataRouteImport } from './routes/bachata'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CoregrafiiRouteImport } from './routes/coregrafii'
 import { Route as DansModernCopiiRouteImport } from './routes/dans-modern-copii'
 import { Route as DansulMirilorRouteImport } from './routes/dansul-mirilor'
 import { Route as DespreNoiRouteImport } from './routes/despre-noi'
 import { Route as EvenimenteRouteImport } from './routes/evenimente'
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as InscrieriActiveRouteImport } from './routes/inscrieri-active'
-import { Route as InstructoriRouteImport } from './routes/instructori'
 import { Route as KizombaRouteImport } from './routes/kizomba'
 import { Route as LadyStylingRouteImport } from './routes/lady-styling'
 import { Route as OrarRouteImport } from './routes/orar'
@@ -56,11 +54,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CoregrafiiRoute = CoregrafiiRouteImport.update({
-  id: '/coregrafii',
-  path: '/coregrafii',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DansModernCopiiRoute = DansModernCopiiRouteImport.update({
   id: '/dans-modern-copii',
   path: '/dans-modern-copii',
@@ -89,11 +82,6 @@ const FeedbackRoute = FeedbackRouteImport.update({
 const InscrieriActiveRoute = InscrieriActiveRouteImport.update({
   id: '/inscrieri-active',
   path: '/inscrieri-active',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InstructoriRoute = InstructoriRouteImport.update({
-  id: '/instructori',
-  path: '/instructori',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KizombaRoute = KizombaRouteImport.update({
@@ -148,14 +136,12 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/bachata': typeof BachataRoute
   '/contact': typeof ContactRoute
-  '/coregrafii': typeof CoregrafiiRoute
   '/dans-modern-copii': typeof DansModernCopiiRoute
   '/dansul-mirilor': typeof DansulMirilorRoute
   '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
   '/feedback': typeof FeedbackRoute
   '/inscrieri-active': typeof InscrieriActiveRoute
-  '/instructori': typeof InstructoriRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
   '/orar': typeof OrarRoute
@@ -171,14 +157,12 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/bachata': typeof BachataRoute
   '/contact': typeof ContactRoute
-  '/coregrafii': typeof CoregrafiiRoute
   '/dans-modern-copii': typeof DansModernCopiiRoute
   '/dansul-mirilor': typeof DansulMirilorRoute
   '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
   '/feedback': typeof FeedbackRoute
   '/inscrieri-active': typeof InscrieriActiveRoute
-  '/instructori': typeof InstructoriRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
   '/orar': typeof OrarRoute
@@ -196,14 +180,12 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/bachata': typeof BachataRoute
   '/contact': typeof ContactRoute
-  '/coregrafii': typeof CoregrafiiRoute
   '/dans-modern-copii': typeof DansModernCopiiRoute
   '/dansul-mirilor': typeof DansulMirilorRoute
   '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
   '/feedback': typeof FeedbackRoute
   '/inscrieri-active': typeof InscrieriActiveRoute
-  '/instructori': typeof InstructoriRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
   '/orar': typeof OrarRoute
@@ -221,14 +203,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bachata'
     | '/contact'
-    | '/coregrafii'
     | '/dans-modern-copii'
     | '/dansul-mirilor'
     | '/despre-noi'
     | '/evenimente'
     | '/feedback'
     | '/inscrieri-active'
-    | '/instructori'
     | '/kizomba'
     | '/lady-styling'
     | '/orar'
@@ -244,14 +224,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bachata'
     | '/contact'
-    | '/coregrafii'
     | '/dans-modern-copii'
     | '/dansul-mirilor'
     | '/despre-noi'
     | '/evenimente'
     | '/feedback'
     | '/inscrieri-active'
-    | '/instructori'
     | '/kizomba'
     | '/lady-styling'
     | '/orar'
@@ -268,14 +246,12 @@ export interface FileRouteTypes {
     | '/auth'
     | '/bachata'
     | '/contact'
-    | '/coregrafii'
     | '/dans-modern-copii'
     | '/dansul-mirilor'
     | '/despre-noi'
     | '/evenimente'
     | '/feedback'
     | '/inscrieri-active'
-    | '/instructori'
     | '/kizomba'
     | '/lady-styling'
     | '/orar'
@@ -293,14 +269,12 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   BachataRoute: typeof BachataRoute
   ContactRoute: typeof ContactRoute
-  CoregrafiiRoute: typeof CoregrafiiRoute
   DansModernCopiiRoute: typeof DansModernCopiiRoute
   DansulMirilorRoute: typeof DansulMirilorRoute
   DespreNoiRoute: typeof DespreNoiRoute
   EvenimenteRoute: typeof EvenimenteRoute
   FeedbackRoute: typeof FeedbackRoute
   InscrieriActiveRoute: typeof InscrieriActiveRoute
-  InstructoriRoute: typeof InstructoriRoute
   KizombaRoute: typeof KizombaRoute
   LadyStylingRoute: typeof LadyStylingRoute
   OrarRoute: typeof OrarRoute
@@ -348,13 +322,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/coregrafii': {
-      id: '/coregrafii'
-      path: '/coregrafii'
-      fullPath: '/coregrafii'
-      preLoaderRoute: typeof CoregrafiiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/dans-modern-copii': {
       id: '/dans-modern-copii'
       path: '/dans-modern-copii'
@@ -395,13 +362,6 @@ declare module '@tanstack/react-router' {
       path: '/inscrieri-active'
       fullPath: '/inscrieri-active'
       preLoaderRoute: typeof InscrieriActiveRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/instructori': {
-      id: '/instructori'
-      path: '/instructori'
-      fullPath: '/instructori'
-      preLoaderRoute: typeof InstructoriRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kizomba': {
@@ -487,14 +447,12 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   BachataRoute: BachataRoute,
   ContactRoute: ContactRoute,
-  CoregrafiiRoute: CoregrafiiRoute,
   DansModernCopiiRoute: DansModernCopiiRoute,
   DansulMirilorRoute: DansulMirilorRoute,
   DespreNoiRoute: DespreNoiRoute,
   EvenimenteRoute: EvenimenteRoute,
   FeedbackRoute: FeedbackRoute,
   InscrieriActiveRoute: InscrieriActiveRoute,
-  InstructoriRoute: InstructoriRoute,
   KizombaRoute: KizombaRoute,
   LadyStylingRoute: LadyStylingRoute,
   OrarRoute: OrarRoute,
