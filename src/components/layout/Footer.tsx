@@ -8,7 +8,6 @@ import logoAsset from "@/assets/magnitude-logo-white.png.asset.json";
 const QUICK_LINKS = [
   { label: "Acasă", to: "/" },
   { label: "Despre noi", to: "/despre-noi" },
-  { label: "Instructori", to: "/instructori" },
   { label: "Orar", to: "/orar" },
   { label: "Prețuri", to: "/orar" },
   { label: "Evenimente", to: "/evenimente" },
