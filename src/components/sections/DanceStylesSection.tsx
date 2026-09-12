@@ -89,7 +89,7 @@ export function DanceStylesSection() {
           {styles.map((style) => (
             <div
               key={style.id}
-              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+              className="flex h-full w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
             >
               <DanceStyleCard style={style} />
             </div>
