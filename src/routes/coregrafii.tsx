@@ -10,9 +10,10 @@ type Choreography = {
   id: string;
   title: string;
   description: string | null;
-  image_url: string | null;
+  thumbnail_url: string | null;
   video_url: string | null;
-  category: string | null;
+  reel_url: string | null;
+  category: string;
 };
 
 const title = "Coregrafii & Dansul Mirilor – Magnitude Dance Iași";
@@ -64,7 +65,7 @@ function ChoreographiesPage() {
                 <article key={item.id} className="card-elevated overflow-hidden">
                   <div className="aspect-16/9">
                     <ImageOrPlaceholder
-                      src={item.image_url}
+                      src={item.thumbnail_url}
                       alt={item.title}
                       label="[Fotografie coregrafie – de înlocuit]"
                     />
@@ -74,9 +75,9 @@ function ChoreographiesPage() {
                     {item.description && (
                       <p className="mt-2 text-sm text-muted-foreground">{item.description}</p>
                     )}
-                    {item.video_url && (
+                    {(item.video_url || item.reel_url) && (
                       <div className="mt-4">
-                        <VideoModal url={item.video_url} title={item.title} />
+                        <VideoModal url={(item.video_url || item.reel_url)!} title={item.title} />
                       </div>
                     )}
                   </div>

@@ -1,27 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Clock, MapPin } from "lucide-react";
+import { Clock, ExternalLink, MapPin } from "lucide-react";
 import { PageHero, SiteLayout } from "@/components/layout/SiteLayout";
 import { ImageOrPlaceholder } from "@/components/ImagePlaceholder";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { partyEventsQuery, formatTime, DAYS } from "@/lib/content";
+import { Button } from "@/components/ui/button";
+import { partyEventsQuery, scheduleQuery, formatTime, DAYS } from "@/lib/content";
+import type { ScheduleEntry } from "@/components/schedule/ScheduleCard";
 import { useSettings } from "@/hooks/use-settings";
 
 type PartyEvent = {
   id: string;
   title: string;
-  description: string | null;
-  day_of_week: number | null;
-  start_time: string | null;
-  end_time: string | null;
-  location: string | null;
+  short_description: string | null;
+  party_date: string | null;
   image_url: string | null;
-  entry_info: string | null;
+  facebook_album_url: string | null;
+  external_url: string | null;
 };
 
 const title = "Social Party – petreceri latino în Iași | Magnitude Dance";
 const description =
-  "Social Party Magnitude: petreceri de salsa, bachata și kizomba în Iași, în fiecare săptămână. Intrare, program și detalii.";
+  "Social Party Magnitude: petreceri de salsa, bachata și kizomba în Iași, în fiecare săptămână. Program, locație și galerie foto.";
 
 export const Route = createFileRoute("/party")({
   head: () => ({
@@ -40,8 +40,10 @@ export const Route = createFileRoute("/party")({
 
 function PartyPage() {
   const { data } = useQuery(partyEventsQuery);
+  const { data: schedule } = useQuery(scheduleQuery);
   const { get } = useSettings();
   const parties = (data ?? []) as PartyEvent[];
+  const partyEntries = ((schedule ?? []) as ScheduleEntry[]).filter((entry) => entry.is_special);
 
   return (
     <SiteLayout>
@@ -60,51 +62,89 @@ function PartyPage() {
         />
       </PageHero>
 
-      <section className="section-y bg-background">
+      <section className="section-y bg-background" aria-labelledby="party-program">
         <div className="container-page">
-          {parties.length === 0 ? (
-            <p className="rounded-2xl border border-dashed border-border bg-card p-8 text-center text-muted-foreground">
-              [Detaliile petrecerilor vor fi actualizate.]
+          <p className="eyebrow">Program</p>
+          <h2 id="party-program" className="mt-2 text-3xl md:text-4xl">
+            Când dansăm
+          </h2>
+          {partyEntries.length === 0 ? (
+            <p className="mt-6 text-muted-foreground">
+              {get("party_schedule_note", "[Programul petrecerilor va fi actualizat.]")}
             </p>
           ) : (
-            <div className="grid gap-6 lg:grid-cols-2">
-              {parties.map((party) => (
-                <article key={party.id} className="card-elevated overflow-hidden">
-                  <div className="aspect-16/9">
-                    <ImageOrPlaceholder
-                      src={party.image_url}
-                      alt={party.title}
-                      label="[Fotografie party – de înlocuit]"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <h2 className="font-display text-xl font-bold">{party.title}</h2>
-                    <p className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
-                      {party.day_of_week && party.start_time && (
-                        <span className="inline-flex items-center gap-1">
-                          <Clock className="size-4" aria-hidden="true" />
-                          {DAYS[party.day_of_week - 1]} {formatTime(party.start_time)}
-                          {party.end_time ? ` – ${formatTime(party.end_time)}` : ""}
-                        </span>
-                      )}
-                      {party.location && (
-                        <span className="inline-flex items-center gap-1">
-                          <MapPin className="size-4" aria-hidden="true" />
-                          {party.location}
-                        </span>
-                      )}
-                    </p>
-                    {party.description && (
-                      <p className="mt-3 text-sm text-muted-foreground">{party.description}</p>
-                    )}
-                    {party.entry_info && (
-                      <p className="mt-3 rounded-xl bg-secondary/70 p-3 text-sm">
-                        {party.entry_info}
-                      </p>
-                    )}
-                  </div>
-                </article>
+            <ul className="mt-6 space-y-3">
+              {partyEntries.map((entry) => (
+                <li
+                  key={entry.id}
+                  className="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-2xl border border-border bg-card p-5"
+                >
+                  <span className="font-display text-lg font-bold text-primary">
+                    {DAYS[entry.day_of_week - 1]}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                    <Clock className="size-4" aria-hidden="true" />
+                    {formatTime(entry.start_time)}
+                    {entry.end_time ? ` – ${formatTime(entry.end_time)}` : ""}
+                  </span>
+                  <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                    <MapPin className="size-4" aria-hidden="true" />
+                    {entry.room}
+                  </span>
+                  <span className="font-medium">{entry.style_label}</span>
+                </li>
               ))}
+            </ul>
+          )}
+          <p className="mt-6 max-w-2xl text-muted-foreground">
+            {get("address", "Aleea Vasile Petrescu 5, Iași")} – intrarea și detaliile actualizate le
+            anunțăm mereu pe rețelele sociale.
+          </p>
+        </div>
+      </section>
+
+      <section className="section-y bg-secondary/40" aria-labelledby="party-gallery">
+        <div className="container-page">
+          <p className="eyebrow">Galerie</p>
+          <h2 id="party-gallery" className="mt-2 text-3xl md:text-4xl">
+            Petrecerile noastre
+          </h2>
+          {parties.length === 0 ? (
+            <p className="mt-6 rounded-2xl border border-dashed border-border bg-card p-8 text-center text-muted-foreground">
+              [Galeria petrecerilor va fi adăugată ulterior.]
+            </p>
+          ) : (
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {parties.map((party) => {
+                const link = party.facebook_album_url || party.external_url;
+                return (
+                  <article key={party.id} className="card-elevated overflow-hidden">
+                    <div className="aspect-16/9">
+                      <ImageOrPlaceholder
+                        src={party.image_url}
+                        alt={party.title}
+                        label="[Fotografie party – de înlocuit]"
+                      />
+                    </div>
+                    <div className="p-5">
+                      <h3 className="font-display text-lg font-bold">{party.title}</h3>
+                      {party.short_description && (
+                        <p className="mt-2 text-sm text-muted-foreground">
+                          {party.short_description}
+                        </p>
+                      )}
+                      {link && (
+                        <Button asChild variant="outline" className="mt-4">
+                          <a href={link} target="_blank" rel="noopener noreferrer">
+                            Vezi album
+                            <ExternalLink aria-hidden="true" />
+                          </a>
+                        </Button>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           )}
         </div>

@@ -10,33 +10,91 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CoregrafiiRouteImport } from './routes/coregrafii'
+import { Route as EvenimenteRouteImport } from './routes/evenimente'
+import { Route as InstructoriRouteImport } from './routes/instructori'
+import { Route as OrarRouteImport } from './routes/orar'
+import { Route as PartyRouteImport } from './routes/party'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoregrafiiRoute = CoregrafiiRouteImport.update({
+  id: '/coregrafii',
+  path: '/coregrafii',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvenimenteRoute = EvenimenteRouteImport.update({
+  id: '/evenimente',
+  path: '/evenimente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstructoriRoute = InstructoriRouteImport.update({
+  id: '/instructori',
+  path: '/instructori',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrarRoute = OrarRouteImport.update({
+  id: '/orar',
+  path: '/orar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartyRoute = PartyRouteImport.update({
+  id: '/party',
+  path: '/party',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/coregrafii': typeof CoregrafiiRoute
+  '/evenimente': typeof EvenimenteRoute
+  '/instructori': typeof InstructoriRoute
+  '/orar': typeof OrarRoute
+  '/party': typeof PartyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/coregrafii': typeof CoregrafiiRoute
+  '/evenimente': typeof EvenimenteRoute
+  '/instructori': typeof InstructoriRoute
+  '/orar': typeof OrarRoute
+  '/party': typeof PartyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/coregrafii': typeof CoregrafiiRoute
+  '/evenimente': typeof EvenimenteRoute
+  '/instructori': typeof InstructoriRoute
+  '/orar': typeof OrarRoute
+  '/party': typeof PartyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/coregrafii' | '/evenimente' | '/instructori' | '/orar' | '/party'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/coregrafii' | '/evenimente' | '/instructori' | '/orar' | '/party'
+  id:
+    | '__root__'
+    | '/'
+    | '/coregrafii'
+    | '/evenimente'
+    | '/instructori'
+    | '/orar'
+    | '/party'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CoregrafiiRoute: typeof CoregrafiiRoute
+  EvenimenteRoute: typeof EvenimenteRoute
+  InstructoriRoute: typeof InstructoriRoute
+  OrarRoute: typeof OrarRoute
+  PartyRoute: typeof PartyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +106,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coregrafii': {
+      id: '/coregrafii'
+      path: '/coregrafii'
+      fullPath: '/coregrafii'
+      preLoaderRoute: typeof CoregrafiiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evenimente': {
+      id: '/evenimente'
+      path: '/evenimente'
+      fullPath: '/evenimente'
+      preLoaderRoute: typeof EvenimenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/instructori': {
+      id: '/instructori'
+      path: '/instructori'
+      fullPath: '/instructori'
+      preLoaderRoute: typeof InstructoriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orar': {
+      id: '/orar'
+      path: '/orar'
+      fullPath: '/orar'
+      preLoaderRoute: typeof OrarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/party': {
+      id: '/party'
+      path: '/party'
+      fullPath: '/party'
+      preLoaderRoute: typeof PartyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CoregrafiiRoute: CoregrafiiRoute,
+  EvenimenteRoute: EvenimenteRoute,
+  InstructoriRoute: InstructoriRoute,
+  OrarRoute: OrarRoute,
+  PartyRoute: PartyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
