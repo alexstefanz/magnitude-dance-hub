@@ -21,15 +21,32 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState<"signin" | "signup">("signin");
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    const email = String(form.get("email") ?? "").trim();
+    const password = String(form.get("password") ?? "");
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
-      email: String(form.get("email") ?? "").trim(),
-      password: String(form.get("password") ?? ""),
-    });
+
+    if (mode === "signup") {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: `${window.location.origin}/auth` },
+      });
+      setLoading(false);
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+      toast.success("Cont creat. Verifică emailul pentru confirmare.");
+      setMode("signin");
+      return;
+    }
+
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
       toast.error("Date de autentificare incorecte.");
@@ -49,7 +66,7 @@ function AuthPage() {
           Administrare
         </h1>
         <p className="mt-2 text-sm text-ink-foreground/75">
-          Zonă privată. Autentifică-te cu contul primit de la administrator.
+          Zonă privată. Drepturile de administrare se acordă separat, după crearea contului.
         </p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
@@ -63,15 +80,24 @@ function AuthPage() {
               id="password"
               name="password"
               type="password"
-              autoComplete="current-password"
+              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              minLength={8}
               required
             />
           </div>
           <Button type="submit" variant="hero" className="w-full" disabled={loading}>
             {loading && <Loader2 className="animate-spin" aria-hidden="true" />}
-            Intră în cont
+            {mode === "signin" ? "Intră în cont" : "Creează cont"}
           </Button>
         </form>
+
+        <button
+          type="button"
+          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+          className="mt-5 text-sm text-accent underline"
+        >
+          {mode === "signin" ? "Nu ai cont? Creează unul" : "Ai deja cont? Autentifică-te"}
+        </button>
       </div>
     </div>
   );
