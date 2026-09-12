@@ -195,7 +195,6 @@ function PasswordPanel() {
     setLoading(true);
     const { error } = await supabase.auth.updateUser({
       password,
-      // @ts-expect-error current_password is supported by Lovable Cloud auth
       current_password: currentPassword,
     });
     setLoading(false);
