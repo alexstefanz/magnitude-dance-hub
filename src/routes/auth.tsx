@@ -68,13 +68,21 @@ function AuthPage() {
           Administrare
         </h1>
         <p className="mt-2 text-sm text-ink-foreground/75">
-          Zonă privată. Drepturile de administrare se acordă separat, după crearea contului.
+          Zonă privată. Conturile se creează doar prin invitație din panoul de administrare.
         </p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" autoComplete="email" required />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Parolă</Label>
@@ -82,23 +90,24 @@ function AuthPage() {
               id="password"
               name="password"
               type="password"
-              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              autoComplete="current-password"
               minLength={8}
               required
             />
           </div>
           <Button type="submit" variant="hero" className="w-full" disabled={loading}>
             {loading && <Loader2 className="animate-spin" aria-hidden="true" />}
-            {mode === "signin" ? "Intră în cont" : "Creează cont"}
+            Intră în cont
           </Button>
         </form>
 
         <button
           type="button"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+          onClick={onForgotPassword}
+          disabled={loading}
           className="mt-5 text-sm text-accent underline"
         >
-          {mode === "signin" ? "Nu ai cont? Creează unul" : "Ai deja cont? Autentifică-te"}
+          Ai uitat parola?
         </button>
       </div>
     </div>
