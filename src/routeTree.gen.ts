@@ -23,6 +23,8 @@ import { Route as KizombaRouteImport } from './routes/kizomba'
 import { Route as LadyStylingRouteImport } from './routes/lady-styling'
 import { Route as OrarRouteImport } from './routes/orar'
 import { Route as PartyRouteImport } from './routes/party'
+import { Route as PoliticaConfidentialitateRouteImport } from './routes/politica-confidentialitate'
+import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
 import { Route as RuedaDeCasinoRouteImport } from './routes/rueda-de-casino'
 import { Route as SalsaRouteImport } from './routes/salsa'
 
@@ -96,6 +98,17 @@ const PartyRoute = PartyRouteImport.update({
   path: '/party',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PoliticaConfidentialitateRoute =
+  PoliticaConfidentialitateRouteImport.update({
+    id: '/politica-confidentialitate',
+    path: '/politica-confidentialitate',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const PoliticaCookiesRoute = PoliticaCookiesRouteImport.update({
+  id: '/politica-cookies',
+  path: '/politica-cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RuedaDeCasinoRoute = RuedaDeCasinoRouteImport.update({
   id: '/rueda-de-casino',
   path: '/rueda-de-casino',
@@ -122,6 +135,8 @@ export interface FileRoutesByFullPath {
   '/lady-styling': typeof LadyStylingRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
+  '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
 }
@@ -140,6 +155,8 @@ export interface FileRoutesByTo {
   '/lady-styling': typeof LadyStylingRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
+  '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
 }
@@ -159,6 +176,8 @@ export interface FileRoutesById {
   '/lady-styling': typeof LadyStylingRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
+  '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
+  '/politica-cookies': typeof PoliticaCookiesRoute
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
 }
@@ -179,6 +198,8 @@ export interface FileRouteTypes {
     | '/lady-styling'
     | '/orar'
     | '/party'
+    | '/politica-confidentialitate'
+    | '/politica-cookies'
     | '/rueda-de-casino'
     | '/salsa'
   fileRoutesByTo: FileRoutesByTo
@@ -197,6 +218,8 @@ export interface FileRouteTypes {
     | '/lady-styling'
     | '/orar'
     | '/party'
+    | '/politica-confidentialitate'
+    | '/politica-cookies'
     | '/rueda-de-casino'
     | '/salsa'
   id:
@@ -215,6 +238,8 @@ export interface FileRouteTypes {
     | '/lady-styling'
     | '/orar'
     | '/party'
+    | '/politica-confidentialitate'
+    | '/politica-cookies'
     | '/rueda-de-casino'
     | '/salsa'
   fileRoutesById: FileRoutesById
@@ -234,6 +259,8 @@ export interface RootRouteChildren {
   LadyStylingRoute: typeof LadyStylingRoute
   OrarRoute: typeof OrarRoute
   PartyRoute: typeof PartyRoute
+  PoliticaConfidentialitateRoute: typeof PoliticaConfidentialitateRoute
+  PoliticaCookiesRoute: typeof PoliticaCookiesRoute
   RuedaDeCasinoRoute: typeof RuedaDeCasinoRoute
   SalsaRoute: typeof SalsaRoute
 }
@@ -338,6 +365,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/politica-confidentialitate': {
+      id: '/politica-confidentialitate'
+      path: '/politica-confidentialitate'
+      fullPath: '/politica-confidentialitate'
+      preLoaderRoute: typeof PoliticaConfidentialitateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politica-cookies': {
+      id: '/politica-cookies'
+      path: '/politica-cookies'
+      fullPath: '/politica-cookies'
+      preLoaderRoute: typeof PoliticaCookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rueda-de-casino': {
       id: '/rueda-de-casino'
       path: '/rueda-de-casino'
@@ -370,6 +411,8 @@ const rootRouteChildren: RootRouteChildren = {
   LadyStylingRoute: LadyStylingRoute,
   OrarRoute: OrarRoute,
   PartyRoute: PartyRoute,
+  PoliticaConfidentialitateRoute: PoliticaConfidentialitateRoute,
+  PoliticaCookiesRoute: PoliticaCookiesRoute,
   RuedaDeCasinoRoute: RuedaDeCasinoRoute,
   SalsaRoute: SalsaRoute,
 }
