@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AdminCrud, type AdminField } from "@/components/admin/AdminCrud";
+import { UsersPanel } from "@/components/admin/UsersPanel";
 import {
   DAYS,
   FEEDBACK_STATUS_LABELS,
