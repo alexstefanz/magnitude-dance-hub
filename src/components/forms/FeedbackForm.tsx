@@ -84,7 +84,7 @@ export function FeedbackForm() {
         <div className="space-y-2">
           <Label htmlFor="email">Email (opțional)</Label>
           <Input id="email" name="email" type="email" maxLength={255} />
-          {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+          {errors["email"] && <p className="text-sm text-destructive">{errors["email"]}</p>}
         </div>
         <div className="space-y-2">
           <Label htmlFor="instructorId">Instructor</Label>
@@ -144,7 +144,7 @@ export function FeedbackForm() {
             </button>
           ))}
         </div>
-        {errors.rating && <p className="text-sm text-destructive">{errors.rating}</p>}
+        {errors["rating"] && <p className="text-sm text-destructive">{errors["rating"]}</p>}
       </fieldset>
 
       <div className="space-y-2">
@@ -152,7 +152,7 @@ export function FeedbackForm() {
           Mesajul tău <span className="text-destructive">*</span>
         </Label>
         <Textarea id="message" name="message" rows={5} maxLength={2000} required />
-        {errors.message && <p className="text-sm text-destructive">{errors.message}</p>}
+        {errors["message"] && <p className="text-sm text-destructive">{errors["message"]}</p>}
       </div>
 
       <div className="hidden" aria-hidden="true">

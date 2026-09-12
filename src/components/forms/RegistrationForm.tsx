@@ -21,8 +21,8 @@ export function RegistrationForm({
   defaultCourse,
   sourcePage,
 }: {
-  defaultCourse?: string;
-  sourcePage?: string;
+  defaultCourse?: string | undefined;
+  sourcePage?: string | undefined;
 }) {
   const submit = useServerFn(submitRegistration);
   const { data: styles } = useQuery(danceStylesQuery);
@@ -91,13 +91,13 @@ export function RegistrationForm({
   return (
     <form onSubmit={onSubmit} className="card-elevated space-y-5 p-6 md:p-8" noValidate>
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Nume" error={errors.firstName} htmlFor="firstName" required>
+        <Field label="Nume" error={errors["firstName"]} htmlFor="firstName" required>
           <Input id="firstName" name="firstName" autoComplete="family-name" maxLength={80} required />
         </Field>
-        <Field label="Prenume" error={errors.lastName} htmlFor="lastName" required>
+        <Field label="Prenume" error={errors["lastName"]} htmlFor="lastName" required>
           <Input id="lastName" name="lastName" autoComplete="given-name" maxLength={80} required />
         </Field>
-        <Field label="Telefon" error={errors.phone} htmlFor="phone" required>
+        <Field label="Telefon" error={errors["phone"]} htmlFor="phone" required>
           <Input
             id="phone"
             name="phone"
@@ -108,10 +108,10 @@ export function RegistrationForm({
             required
           />
         </Field>
-        <Field label="Email" error={errors.email} htmlFor="email" required>
+        <Field label="Email" error={errors["email"]} htmlFor="email" required>
           <Input id="email" name="email" type="email" autoComplete="email" maxLength={255} required />
         </Field>
-        <Field label="Cine sunt" error={errors.whoAmI} htmlFor="whoAmI">
+        <Field label="Cine sunt" error={errors["whoAmI"]} htmlFor="whoAmI">
           <select
             id="whoAmI"
             name="whoAmI"
@@ -126,7 +126,7 @@ export function RegistrationForm({
             ))}
           </select>
         </Field>
-        <Field label="Cursul dorit" error={errors.selectedCourse} htmlFor="selectedCourse">
+        <Field label="Cursul dorit" error={errors["selectedCourse"]} htmlFor="selectedCourse">
           <select
             id="selectedCourse"
             name="selectedCourse"
@@ -143,7 +143,7 @@ export function RegistrationForm({
         </Field>
       </div>
 
-      <Field label="Mesaj (opțional)" error={errors.message} htmlFor="message">
+      <Field label="Mesaj (opțional)" error={errors["message"]} htmlFor="message">
         <Textarea id="message" name="message" rows={4} maxLength={2000} />
       </Field>
 
@@ -163,7 +163,7 @@ export function RegistrationForm({
           .
         </Label>
       </div>
-      {errors.gdprConsent && <p className="text-sm text-destructive">{errors.gdprConsent}</p>}
+      {errors["gdprConsent"] && <p className="text-sm text-destructive">{errors["gdprConsent"]}</p>}
 
       <Button type="submit" variant="hero" size="lg" className="w-full" disabled={mutation.isPending}>
         {mutation.isPending && <Loader2 className="animate-spin" aria-hidden="true" />}
@@ -182,8 +182,8 @@ function Field({
 }: {
   label: string;
   htmlFor: string;
-  error?: string;
-  required?: boolean;
+  error?: string | undefined;
+  required?: boolean | undefined;
   children: React.ReactNode;
 }) {
   return (
