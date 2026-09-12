@@ -183,9 +183,17 @@ function AdminPage() {
   const roleQuery = useQuery({
     queryKey: ["is_admin"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("user_roles").select("role");
+      const { data: userData } = await supabase.auth.getUser();
+      const userId = userData.user?.id ?? "";
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId);
       if (error) throw new Error(error.message);
-      return (data ?? []).some((row) => row.role === "admin");
+      return {
+        userId,
+        isAdmin: (data ?? []).some((row) => row.role === "admin"),
+      };
     },
   });
 
