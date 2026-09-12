@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ImageOrPlaceholder } from "@/components/ImagePlaceholder";
 import { danceStylesQuery } from "@/lib/content";
+import { stylePath } from "@/lib/routes";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export type DanceStyle = {
@@ -31,12 +32,14 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
         <p className="mt-2 flex-1 text-sm text-muted-foreground">
           {style.short_description || "[Descriere – de completat]"}
         </p>
-        <Button asChild variant="outline" className="mt-4 self-start">
-          <Link to={`/${style.slug}`}>
-            Descoperă cursul
-            <ArrowRight aria-hidden="true" />
-          </Link>
-        </Button>
+        {href && (
+          <Button asChild variant="outline" className="mt-4 self-start">
+            <Link to={href}>
+              Descoperă cursul
+              <ArrowRight aria-hidden="true" />
+            </Link>
+          </Button>
+        )}
       </div>
     </article>
   );
