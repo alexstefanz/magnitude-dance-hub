@@ -3,6 +3,14 @@ import { Link } from "@tanstack/react-router";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import logoAsset from "@/assets/magnitude-logo-white.png.asset.json";
 
@@ -26,7 +34,7 @@ export const MAIN_LINKS = [
 ] as const;
 
 export function Header() {
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -40,7 +48,7 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b border-white/10 text-ink-foreground backdrop-blur-md transition-colors duration-300",
+        "fixed inset-x-0 top-0 z-40 border-b border-white/10 text-ink-foreground backdrop-blur-md transition-colors duration-300",
         scrolled ? "bg-ink/95 shadow-[var(--shadow-glow)]" : "bg-ink/20",
       )}
     >
@@ -84,56 +92,71 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <WhatsAppButton className="hidden md:inline-flex" size="default" />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="text-ink-foreground hover:bg-white/10 xl:hidden"
-            aria-label={open ? "Închide meniul" : "Deschide meniul"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <Menu className="size-6" /> : <Menu className="size-6" />}
-          </Button>
-        </div>
-      </div>
-
-      {open && (
-        <div className="border-t border-white/10 bg-ink xl:hidden">
-          <div className="container-page max-h-[75vh] overflow-y-auto py-4">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="eyebrow text-accent">Meniu</span>
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Închide meniul"
-                className="text-ink-foreground hover:bg-white/10"
-                onClick={() => setOpen(false)}
+                className="text-ink-foreground hover:bg-white/10 xl:hidden"
+                aria-label="Deschide meniul"
               >
-                <X className="size-5" />
+                <Menu className="size-6" />
               </Button>
-            </div>
-            <MobileLink to="/" onClick={() => setOpen(false)}>
-              Acasă
-            </MobileLink>
-            <p className="mt-3 px-1 text-xs font-bold uppercase tracking-widest text-accent">
-              Cursuri
-            </p>
-            {COURSE_LINKS.map((item) => (
-              <MobileLink key={item.to} to={item.to} onClick={() => setOpen(false)}>
-                {item.label}
-              </MobileLink>
-            ))}
-            <div className="mt-3 border-t border-white/10 pt-3">
-              {MAIN_LINKS.filter((l) => l.to !== "/").map((item) => (
-                <MobileLink key={item.to} to={item.to} onClick={() => setOpen(false)}>
-                  {item.label}
-                </MobileLink>
-              ))}
-            </div>
-            <WhatsAppButton className="mt-4 w-full" />
-          </div>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="w-[85vw] border-white/10 bg-ink p-0 text-ink-foreground sm:max-w-sm"
+            >
+              <SheetHeader className="sr-only">
+                <SheetTitle>Meniu de navigare</SheetTitle>
+              </SheetHeader>
+
+              <div className="flex h-full flex-col">
+                <div className="flex h-16 items-center justify-between border-b border-white/10 px-5 md:h-20">
+                  <span className="eyebrow text-accent">Meniu</span>
+                  <SheetClose asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      aria-label="Închide meniul"
+                      className="text-ink-foreground hover:bg-white/10"
+                    >
+                      <X className="size-5" />
+                    </Button>
+                  </SheetClose>
+                </div>
+
+                <div className="flex-1 overflow-y-auto px-5 py-6">
+                  <SheetClose asChild>
+                    <MobileLink to="/">Acasă</MobileLink>
+                  </SheetClose>
+
+                  <p className="mt-5 px-1 text-xs font-bold uppercase tracking-widest text-accent">
+                    Cursuri
+                  </p>
+                  {COURSE_LINKS.map((item) => (
+                    <SheetClose key={item.to} asChild>
+                      <MobileLink to={item.to}>{item.label}</MobileLink>
+                    </SheetClose>
+                  ))}
+
+                  <div className="mt-5 border-t border-white/10 pt-5">
+                    {MAIN_LINKS.filter((l) => l.to !== "/").map((item) => (
+                      <SheetClose key={item.to} asChild>
+                        <MobileLink to={item.to}>{item.label}</MobileLink>
+                      </SheetClose>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="border-t border-white/10 p-5">
+                  <WhatsAppButton className="w-full" />
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
-      )}
+      </div>
     </header>
   );
 }
@@ -154,16 +177,13 @@ function NavItem({ to, children }: { to: string; children: React.ReactNode }) {
 function MobileLink({
   to,
   children,
-  onClick,
 }: {
   to: string;
   children: React.ReactNode;
-  onClick: () => void;
 }) {
   return (
     <Link
       to={to}
-      onClick={onClick}
       className={cn(
         "block rounded-xl px-3 py-3 text-base font-medium text-ink-foreground/90 transition-colors hover:bg-white/10",
       )}
