@@ -10,8 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CoregrafiiRouteImport } from './routes/coregrafii'
+import { Route as DespreNoiRouteImport } from './routes/despre-noi'
 import { Route as EvenimenteRouteImport } from './routes/evenimente'
+import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as InstructoriRouteImport } from './routes/instructori'
 import { Route as OrarRouteImport } from './routes/orar'
 import { Route as PartyRouteImport } from './routes/party'
@@ -21,14 +24,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoregrafiiRoute = CoregrafiiRouteImport.update({
   id: '/coregrafii',
   path: '/coregrafii',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DespreNoiRoute = DespreNoiRouteImport.update({
+  id: '/despre-noi',
+  path: '/despre-noi',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EvenimenteRoute = EvenimenteRouteImport.update({
   id: '/evenimente',
   path: '/evenimente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstructoriRoute = InstructoriRouteImport.update({
@@ -49,16 +67,22 @@ const PartyRoute = PartyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/coregrafii': typeof CoregrafiiRoute
+  '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
+  '/feedback': typeof FeedbackRoute
   '/instructori': typeof InstructoriRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/coregrafii': typeof CoregrafiiRoute
+  '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
+  '/feedback': typeof FeedbackRoute
   '/instructori': typeof InstructoriRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
@@ -66,8 +90,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/coregrafii': typeof CoregrafiiRoute
+  '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
+  '/feedback': typeof FeedbackRoute
   '/instructori': typeof InstructoriRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
@@ -75,14 +102,34 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/coregrafii' | '/evenimente' | '/instructori' | '/orar' | '/party'
+    | '/'
+    | '/contact'
+    | '/coregrafii'
+    | '/despre-noi'
+    | '/evenimente'
+    | '/feedback'
+    | '/instructori'
+    | '/orar'
+    | '/party'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/coregrafii' | '/evenimente' | '/instructori' | '/orar' | '/party'
+  to:
+    | '/'
+    | '/contact'
+    | '/coregrafii'
+    | '/despre-noi'
+    | '/evenimente'
+    | '/feedback'
+    | '/instructori'
+    | '/orar'
+    | '/party'
   id:
     | '__root__'
     | '/'
+    | '/contact'
     | '/coregrafii'
+    | '/despre-noi'
     | '/evenimente'
+    | '/feedback'
     | '/instructori'
     | '/orar'
     | '/party'
@@ -90,8 +137,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
   CoregrafiiRoute: typeof CoregrafiiRoute
+  DespreNoiRoute: typeof DespreNoiRoute
   EvenimenteRoute: typeof EvenimenteRoute
+  FeedbackRoute: typeof FeedbackRoute
   InstructoriRoute: typeof InstructoriRoute
   OrarRoute: typeof OrarRoute
   PartyRoute: typeof PartyRoute
@@ -106,6 +156,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/coregrafii': {
       id: '/coregrafii'
       path: '/coregrafii'
@@ -113,11 +170,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoregrafiiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/despre-noi': {
+      id: '/despre-noi'
+      path: '/despre-noi'
+      fullPath: '/despre-noi'
+      preLoaderRoute: typeof DespreNoiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/evenimente': {
       id: '/evenimente'
       path: '/evenimente'
       fullPath: '/evenimente'
       preLoaderRoute: typeof EvenimenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/instructori': {
@@ -146,8 +217,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
   CoregrafiiRoute: CoregrafiiRoute,
+  DespreNoiRoute: DespreNoiRoute,
   EvenimenteRoute: EvenimenteRoute,
+  FeedbackRoute: FeedbackRoute,
   InstructoriRoute: InstructoriRoute,
   OrarRoute: OrarRoute,
   PartyRoute: PartyRoute,
