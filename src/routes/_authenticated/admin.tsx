@@ -364,6 +364,9 @@ function AdminPage() {
             <TabsContent value="setari">
               <SettingsPanel />
             </TabsContent>
+            <TabsContent value="utilizatori">
+              <UsersPanel currentUserId={roleQuery.data.userId} />
+            </TabsContent>
           </div>
         </Tabs>
       </main>
