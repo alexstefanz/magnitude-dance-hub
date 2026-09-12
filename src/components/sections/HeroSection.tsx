@@ -29,7 +29,8 @@ export function HeroSection() {
             muted
             loop
             playsInline
-            preload="metadata"
+            preload="auto"
+            poster={heroImage}
             aria-hidden="true"
           />
         ) : (
