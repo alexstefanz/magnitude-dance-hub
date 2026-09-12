@@ -24,13 +24,20 @@ const CATEGORY_LABELS: Record<string, string> = {
   privat: "Ședințe private",
 };
 
-export function PricingCard({ pkg }: { pkg: PricingPackage }) {
+export function PricingCard({
+  pkg,
+  className,
+}: {
+  pkg: PricingPackage;
+  className?: string;
+}) {
   const finalPrice = pkg.discounted_price ?? pkg.price;
   return (
     <article
       className={cn(
         "card-elevated flex flex-col p-6",
         pkg.is_featured && "border-primary/40 ring-2 ring-primary/25",
+        className,
       )}
     >
       {pkg.is_featured && (
