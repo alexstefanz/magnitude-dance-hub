@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { useSettings } from "@/hooks/use-settings";
 import heroImage from "@/assets/hero-dance.jpg";
+import heroVideoAsset from "@/assets/7-years-video-website.mp4.asset.json";
 import { currentDayOfWeek, DAYS, formatTime, scheduleQuery } from "@/lib/content";
 import type { ScheduleEntry } from "@/components/schedule/ScheduleCard";
 
@@ -15,7 +16,7 @@ export function HeroSection() {
   const todayEntries = ((scheduleData ?? []) as ScheduleEntry[])
     .filter((entry) => entry.day_of_week === today)
     .slice(0, 3);
-  const videoUrl = get("hero_video_url");
+  const videoUrl = get("hero_video_url", heroVideoAsset.url);
 
   return (
     <section className="relative isolate overflow-hidden bg-ink text-ink-foreground">
@@ -28,8 +29,7 @@ export function HeroSection() {
             muted
             loop
             playsInline
-            preload="none"
-            poster="/hero-poster.jpg"
+            preload="metadata"
             aria-hidden="true"
           />
         ) : (
@@ -48,7 +48,7 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="container-page grid min-h-[42rem] items-end gap-10 pb-14 pt-32 md:pb-20 lg:grid-cols-[minmax(0,1fr)_22rem]">
+      <div className="container-page grid min-h-[100svh] items-end gap-10 pb-14 pt-32 md:pb-20 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div>
           <p className="eyebrow text-accent">Școală &amp; comunitate de dans în Iași</p>
           <h1 className="mt-4 max-w-4xl text-5xl leading-[1.05] md:text-7xl">
