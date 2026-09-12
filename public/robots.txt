@@ -12,3 +12,8 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+User-agent: *
+Disallow: /login
+Disallow: /admin
+Disallow: /reset-password
