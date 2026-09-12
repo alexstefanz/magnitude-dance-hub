@@ -78,13 +78,21 @@ export function DanceStylesSection() {
           hai să dansăm.
         </p>
 
-        <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-9 flex flex-wrap justify-center gap-6">
           {isLoading &&
             Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} className="h-80 w-full rounded-2xl" />
+              <Skeleton
+                key={i}
+                className="h-80 w-full rounded-2xl sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+              />
             ))}
           {styles.map((style) => (
-            <DanceStyleCard key={style.id} style={style} />
+            <div
+              key={style.id}
+              className="w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+            >
+              <DanceStyleCard style={style} />
+            </div>
           ))}
         </div>
       </div>
