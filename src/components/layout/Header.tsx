@@ -19,8 +19,6 @@ export const COURSE_LINKS = [
 export const MAIN_LINKS = [
   { label: "Acasă", to: "/" },
   { label: "Orar", to: "/orar" },
-  { label: "Instructori", to: "/instructori" },
-  { label: "Coregrafii", to: "/coregrafii" },
   { label: "Evenimente", to: "/evenimente" },
   { label: "Party", to: "/party" },
   { label: "Despre Noi", to: "/despre-noi" },

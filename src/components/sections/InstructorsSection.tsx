@@ -144,9 +144,6 @@ export function InstructorsIntroSection() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button asChild variant="outline">
-              <Link to="/instructori">Instructori</Link>
-            </Button>
             <Button asChild variant="hero">
               <Link to="/despre-noi">Despre noi</Link>
             </Button>
