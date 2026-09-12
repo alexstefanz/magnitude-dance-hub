@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AdminCrud, type AdminField } from "@/components/admin/AdminCrud";
+import { UsersPanel } from "@/components/admin/UsersPanel";
 import {
   DAYS,
   FEEDBACK_STATUS_LABELS,
@@ -183,9 +184,17 @@ function AdminPage() {
   const roleQuery = useQuery({
     queryKey: ["is_admin"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("user_roles").select("role");
+      const { data: userData } = await supabase.auth.getUser();
+      const userId = userData.user?.id ?? "";
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId);
       if (error) throw new Error(error.message);
-      return (data ?? []).some((row) => row.role === "admin");
+      return {
+        userId,
+        isAdmin: (data ?? []).some((row) => row.role === "admin"),
+      };
     },
   });
 
@@ -204,7 +213,7 @@ function AdminPage() {
     );
   }
 
-  if (!roleQuery.data) {
+  if (!roleQuery.data?.isAdmin) {
     return (
       <div className="container-page flex min-h-screen flex-col items-center justify-center gap-4 text-center">
         <ShieldAlert className="size-12 text-destructive" aria-hidden="true" />
@@ -253,6 +262,7 @@ function AdminPage() {
             <TabsTrigger value="beneficii">De ce Magnitude</TabsTrigger>
             <TabsTrigger value="recenzii">Recenzii</TabsTrigger>
             <TabsTrigger value="setari">Setări</TabsTrigger>
+            <TabsTrigger value="utilizatori">Utilizatori</TabsTrigger>
           </TabsList>
 
           <div className="mt-6">
@@ -354,6 +364,9 @@ function AdminPage() {
             </TabsContent>
             <TabsContent value="setari">
               <SettingsPanel />
+            </TabsContent>
+            <TabsContent value="utilizatori">
+              <UsersPanel currentUserId={roleQuery.data.userId} />
             </TabsContent>
           </div>
         </Tabs>

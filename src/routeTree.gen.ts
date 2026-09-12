@@ -26,6 +26,7 @@ import { Route as OrarRouteImport } from './routes/orar'
 import { Route as PartyRouteImport } from './routes/party'
 import { Route as PoliticaConfidentialitateRouteImport } from './routes/politica-confidentialitate'
 import { Route as PoliticaCookiesRouteImport } from './routes/politica-cookies'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RuedaDeCasinoRouteImport } from './routes/rueda-de-casino'
 import { Route as SalsaRouteImport } from './routes/salsa'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -115,6 +116,11 @@ const PoliticaCookiesRoute = PoliticaCookiesRouteImport.update({
   path: '/politica-cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RuedaDeCasinoRoute = RuedaDeCasinoRouteImport.update({
   id: '/rueda-de-casino',
   path: '/rueda-de-casino',
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/party': typeof PartyRoute
   '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -169,6 +176,7 @@ export interface FileRoutesByTo {
   '/party': typeof PartyRoute
   '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -192,6 +200,7 @@ export interface FileRoutesById {
   '/party': typeof PartyRoute
   '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
   '/politica-cookies': typeof PoliticaCookiesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -215,6 +224,7 @@ export interface FileRouteTypes {
     | '/party'
     | '/politica-confidentialitate'
     | '/politica-cookies'
+    | '/reset-password'
     | '/rueda-de-casino'
     | '/salsa'
     | '/admin'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/party'
     | '/politica-confidentialitate'
     | '/politica-cookies'
+    | '/reset-password'
     | '/rueda-de-casino'
     | '/salsa'
     | '/admin'
@@ -258,6 +269,7 @@ export interface FileRouteTypes {
     | '/party'
     | '/politica-confidentialitate'
     | '/politica-cookies'
+    | '/reset-password'
     | '/rueda-de-casino'
     | '/salsa'
     | '/_authenticated/admin'
@@ -281,6 +293,7 @@ export interface RootRouteChildren {
   PartyRoute: typeof PartyRoute
   PoliticaConfidentialitateRoute: typeof PoliticaConfidentialitateRoute
   PoliticaCookiesRoute: typeof PoliticaCookiesRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   RuedaDeCasinoRoute: typeof RuedaDeCasinoRoute
   SalsaRoute: typeof SalsaRoute
 }
@@ -406,6 +419,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PoliticaCookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rueda-de-casino': {
       id: '/rueda-de-casino'
       path: '/rueda-de-casino'
@@ -459,6 +479,7 @@ const rootRouteChildren: RootRouteChildren = {
   PartyRoute: PartyRoute,
   PoliticaConfidentialitateRoute: PoliticaConfidentialitateRoute,
   PoliticaCookiesRoute: PoliticaCookiesRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   RuedaDeCasinoRoute: RuedaDeCasinoRoute,
   SalsaRoute: SalsaRoute,
 }

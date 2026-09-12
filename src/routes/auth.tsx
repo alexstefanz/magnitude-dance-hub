@@ -21,38 +21,40 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [email, setEmail] = useState("");
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const email = String(form.get("email") ?? "").trim();
     const password = String(form.get("password") ?? "");
     setLoading(true);
-
-    if (mode === "signup") {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: { emailRedirectTo: `${window.location.origin}/auth` },
-      });
-      setLoading(false);
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-      toast.success("Cont creat. Verifică emailul pentru confirmare.");
-      setMode("signin");
-      return;
-    }
-
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email.trim(),
+      password,
+    });
     setLoading(false);
     if (error) {
       toast.error("Date de autentificare incorecte.");
       return;
     }
     navigate({ to: "/admin" });
+  }
+
+  async function onForgotPassword() {
+    if (!email.trim()) {
+      toast.error("Completează adresa de email, apoi apasă din nou.");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Ți-am trimis un email cu link pentru resetarea parolei.");
   }
 
   return (
@@ -66,13 +68,21 @@ function AuthPage() {
           Administrare
         </h1>
         <p className="mt-2 text-sm text-ink-foreground/75">
-          Zonă privată. Drepturile de administrare se acordă separat, după crearea contului.
+          Zonă privată. Conturile se creează doar prin invitație din panoul de administrare.
         </p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" autoComplete="email" required />
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              required
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Parolă</Label>
@@ -80,23 +90,24 @@ function AuthPage() {
               id="password"
               name="password"
               type="password"
-              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              autoComplete="current-password"
               minLength={8}
               required
             />
           </div>
           <Button type="submit" variant="hero" className="w-full" disabled={loading}>
             {loading && <Loader2 className="animate-spin" aria-hidden="true" />}
-            {mode === "signin" ? "Intră în cont" : "Creează cont"}
+            Intră în cont
           </Button>
         </form>
 
         <button
           type="button"
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
+          onClick={onForgotPassword}
+          disabled={loading}
           className="mt-5 text-sm text-accent underline"
         >
-          {mode === "signin" ? "Nu ai cont? Creează unul" : "Ai deja cont? Autentifică-te"}
+          Ai uitat parola?
         </button>
       </div>
     </div>
