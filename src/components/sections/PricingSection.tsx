@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Check, Star } from "lucide-react";
+import { Check } from "lucide-react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { Badge } from "@/components/ui/badge";
 import { pricingQuery } from "@/lib/content";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -35,16 +34,10 @@ export function PricingCard({
   return (
     <article
       className={cn(
-        "card-elevated relative flex flex-col p-6",
-        pkg.is_featured && "border-primary/40 ring-2 ring-primary/25",
+        "card-elevated flex flex-col p-6",
         className,
       )}
     >
-      {pkg.is_featured && (
-        <Badge className="absolute top-4 right-4 gap-1">
-          <Star className="size-3" aria-hidden="true" /> Recomandat
-        </Badge>
-      )}
       <h3 className="font-display text-lg font-bold">{pkg.name}</h3>
       <p className="mt-3 font-display text-3xl font-extrabold text-primary">
         {Number(finalPrice)} <span className="text-base font-semibold">{pkg.price_unit}</span>
