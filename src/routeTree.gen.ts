@@ -22,6 +22,7 @@ import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as InscrieriActiveRouteImport } from './routes/inscrieri-active'
 import { Route as KizombaRouteImport } from './routes/kizomba'
 import { Route as LadyStylingRouteImport } from './routes/lady-styling'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as OrarRouteImport } from './routes/orar'
 import { Route as PartyRouteImport } from './routes/party'
 import { Route as PoliticaConfidentialitateRouteImport } from './routes/politica-confidentialitate'
@@ -95,6 +96,11 @@ const LadyStylingRoute = LadyStylingRouteImport.update({
   path: '/lady-styling',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrarRoute = OrarRouteImport.update({
   id: '/orar',
   path: '/orar',
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/inscrieri-active': typeof InscrieriActiveRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
+  '/login': typeof LoginRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
   '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/inscrieri-active': typeof InscrieriActiveRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
+  '/login': typeof LoginRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
   '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/inscrieri-active': typeof InscrieriActiveRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
+  '/login': typeof LoginRoute
   '/orar': typeof OrarRoute
   '/party': typeof PartyRoute
   '/politica-confidentialitate': typeof PoliticaConfidentialitateRoute
@@ -220,6 +229,7 @@ export interface FileRouteTypes {
     | '/inscrieri-active'
     | '/kizomba'
     | '/lady-styling'
+    | '/login'
     | '/orar'
     | '/party'
     | '/politica-confidentialitate'
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/inscrieri-active'
     | '/kizomba'
     | '/lady-styling'
+    | '/login'
     | '/orar'
     | '/party'
     | '/politica-confidentialitate'
@@ -265,6 +276,7 @@ export interface FileRouteTypes {
     | '/inscrieri-active'
     | '/kizomba'
     | '/lady-styling'
+    | '/login'
     | '/orar'
     | '/party'
     | '/politica-confidentialitate'
@@ -289,6 +301,7 @@ export interface RootRouteChildren {
   InscrieriActiveRoute: typeof InscrieriActiveRoute
   KizombaRoute: typeof KizombaRoute
   LadyStylingRoute: typeof LadyStylingRoute
+  LoginRoute: typeof LoginRoute
   OrarRoute: typeof OrarRoute
   PartyRoute: typeof PartyRoute
   PoliticaConfidentialitateRoute: typeof PoliticaConfidentialitateRoute
@@ -391,6 +404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LadyStylingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/orar': {
       id: '/orar'
       path: '/orar'
@@ -475,6 +495,7 @@ const rootRouteChildren: RootRouteChildren = {
   InscrieriActiveRoute: InscrieriActiveRoute,
   KizombaRoute: KizombaRoute,
   LadyStylingRoute: LadyStylingRoute,
+  LoginRoute: LoginRoute,
   OrarRoute: OrarRoute,
   PartyRoute: PartyRoute,
   PoliticaConfidentialitateRoute: PoliticaConfidentialitateRoute,
