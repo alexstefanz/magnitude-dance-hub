@@ -35,13 +35,13 @@ export function PricingCard({
   return (
     <article
       className={cn(
-        "card-elevated flex flex-col p-6",
+        "card-elevated relative flex flex-col p-6",
         pkg.is_featured && "border-primary/40 ring-2 ring-primary/25",
         className,
       )}
     >
       {pkg.is_featured && (
-        <Badge className="mb-3 w-fit gap-1">
+        <Badge className="absolute top-4 right-4 gap-1">
           <Star className="size-3" aria-hidden="true" /> Recomandat
         </Badge>
       )}
