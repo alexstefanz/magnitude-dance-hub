@@ -11,8 +11,8 @@ import bachataAsset from "@/assets/style-bachata.jpg.asset.json";
 import kizombaAsset from "@/assets/style-kizomba.jpg.asset.json";
 import weddingAsset from "@/assets/style-wedding.jpg.asset.json";
 import ruedaAsset from "@/assets/style-rueda.jpg.asset.json";
-import kidsAsset from "@/assets/style-kids.jpg.asset.json";
-import ladyAsset from "@/assets/style-lady.jpg.asset.json";
+import kidsAsset from "@/assets/style-kids-fixed.jpg.asset.json";
+import ladyAsset from "@/assets/style-lady-fixed.jpg.asset.json";
 
 const STYLE_IMAGES: Record<string, string> = {
   salsa: salsaAsset.url,
