@@ -3,25 +3,14 @@ import { Link } from "@tanstack/react-router";
 import { ArrowRight, Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { campaignsQuery } from "@/lib/content";
 import { useSettings } from "@/hooks/use-settings";
 import heroImage from "@/assets/hero-dance.jpg";
 import { currentDayOfWeek, DAYS, formatTime, scheduleQuery } from "@/lib/content";
 import type { ScheduleEntry } from "@/components/schedule/ScheduleCard";
 
-type Campaign = {
-  id: string;
-  title: string;
-  style_label: string | null;
-  whatsapp_message: string | null;
-  cta_label: string;
-};
-
 export function HeroSection() {
   const { get } = useSettings();
-  const { data } = useQuery(campaignsQuery);
   const { data: scheduleData } = useQuery(scheduleQuery);
-  const campaigns = (data ?? []) as Campaign[];
   const today = currentDayOfWeek();
   const todayEntries = ((scheduleData ?? []) as ScheduleEntry[])
     .filter((entry) => entry.day_of_week === today)
@@ -114,31 +103,6 @@ export function HeroSection() {
             </Link>
           </Button>
         </aside>
-
-        {campaigns.length > 0 && (
-          <div className="hidden">
-            <p className="flex items-center gap-2 font-display text-sm font-bold uppercase tracking-widest text-accent">
-              <Sparkles className="size-4" aria-hidden="true" />
-              Înscrieri active
-            </p>
-            <ul className="mt-3 space-y-3">
-              {campaigns.map((campaign) => (
-                <li key={campaign.id} className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="font-medium">{campaign.title}</span>
-                  <WhatsAppButton
-                    size="sm"
-                    variant="gold"
-                    label={campaign.cta_label || "Înscrie-te prin WhatsApp"}
-                    message={
-                      campaign.whatsapp_message ||
-                      `Bună! Aș dori să mă înscriu la „${campaign.title}”.`
-                    }
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </section>
   );

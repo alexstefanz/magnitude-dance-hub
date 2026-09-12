@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { CalendarCheck, Check, Star } from "lucide-react";
+import { Check, Star } from "lucide-react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Badge } from "@/components/ui/badge";
 import { pricingQuery } from "@/lib/content";

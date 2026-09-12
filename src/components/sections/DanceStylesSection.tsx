@@ -38,7 +38,7 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
     <article className="card-elevated group flex flex-col overflow-hidden">
       <div className="aspect-4/3 overflow-hidden">
         <ImageOrPlaceholder
-          src={style.image_url || STYLE_IMAGES[style.slug]}
+          src={style.image_url || STYLE_IMAGES[style.slug] || null}
           alt={`Curs de ${style.name} la Magnitude Dance Iași`}
           label="[Fotografie curs – de înlocuit]"
           imageClassName="transition-transform duration-500 group-hover:scale-105"
