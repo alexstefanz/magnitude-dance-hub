@@ -20,6 +20,7 @@ import { Route as DansulMirilorRouteImport } from './routes/dansul-mirilor'
 import { Route as DespreNoiRouteImport } from './routes/despre-noi'
 import { Route as EvenimenteRouteImport } from './routes/evenimente'
 import { Route as FeedbackRouteImport } from './routes/feedback'
+import { Route as InscrieriActiveRouteImport } from './routes/inscrieri-active'
 import { Route as InstructoriRouteImport } from './routes/instructori'
 import { Route as KizombaRouteImport } from './routes/kizomba'
 import { Route as LadyStylingRouteImport } from './routes/lady-styling'
@@ -85,6 +86,11 @@ const FeedbackRoute = FeedbackRouteImport.update({
   path: '/feedback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InscrieriActiveRoute = InscrieriActiveRouteImport.update({
+  id: '/inscrieri-active',
+  path: '/inscrieri-active',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstructoriRoute = InstructoriRouteImport.update({
   id: '/instructori',
   path: '/instructori',
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
   '/feedback': typeof FeedbackRoute
+  '/inscrieri-active': typeof InscrieriActiveRoute
   '/instructori': typeof InstructoriRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
@@ -170,6 +177,7 @@ export interface FileRoutesByTo {
   '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
   '/feedback': typeof FeedbackRoute
+  '/inscrieri-active': typeof InscrieriActiveRoute
   '/instructori': typeof InstructoriRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
@@ -194,6 +202,7 @@ export interface FileRoutesById {
   '/despre-noi': typeof DespreNoiRoute
   '/evenimente': typeof EvenimenteRoute
   '/feedback': typeof FeedbackRoute
+  '/inscrieri-active': typeof InscrieriActiveRoute
   '/instructori': typeof InstructoriRoute
   '/kizomba': typeof KizombaRoute
   '/lady-styling': typeof LadyStylingRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/despre-noi'
     | '/evenimente'
     | '/feedback'
+    | '/inscrieri-active'
     | '/instructori'
     | '/kizomba'
     | '/lady-styling'
@@ -240,6 +250,7 @@ export interface FileRouteTypes {
     | '/despre-noi'
     | '/evenimente'
     | '/feedback'
+    | '/inscrieri-active'
     | '/instructori'
     | '/kizomba'
     | '/lady-styling'
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/despre-noi'
     | '/evenimente'
     | '/feedback'
+    | '/inscrieri-active'
     | '/instructori'
     | '/kizomba'
     | '/lady-styling'
@@ -287,6 +299,7 @@ export interface RootRouteChildren {
   DespreNoiRoute: typeof DespreNoiRoute
   EvenimenteRoute: typeof EvenimenteRoute
   FeedbackRoute: typeof FeedbackRoute
+  InscrieriActiveRoute: typeof InscrieriActiveRoute
   InstructoriRoute: typeof InstructoriRoute
   KizombaRoute: typeof KizombaRoute
   LadyStylingRoute: typeof LadyStylingRoute
@@ -375,6 +388,13 @@ declare module '@tanstack/react-router' {
       path: '/feedback'
       fullPath: '/feedback'
       preLoaderRoute: typeof FeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inscrieri-active': {
+      id: '/inscrieri-active'
+      path: '/inscrieri-active'
+      fullPath: '/inscrieri-active'
+      preLoaderRoute: typeof InscrieriActiveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/instructori': {
@@ -473,6 +493,7 @@ const rootRouteChildren: RootRouteChildren = {
   DespreNoiRoute: DespreNoiRoute,
   EvenimenteRoute: EvenimenteRoute,
   FeedbackRoute: FeedbackRoute,
+  InscrieriActiveRoute: InscrieriActiveRoute,
   InstructoriRoute: InstructoriRoute,
   KizombaRoute: KizombaRoute,
   LadyStylingRoute: LadyStylingRoute,
