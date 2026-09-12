@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -28,9 +28,22 @@ export const MAIN_LINKS = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const [coursesOpen, setCoursesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 10);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="absolute inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/20 text-ink-foreground backdrop-blur-sm">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 border-b border-white/10 text-ink-foreground backdrop-blur-md transition-colors duration-300",
+        scrolled ? "bg-ink/95 shadow-[var(--shadow-glow)]" : "bg-ink/20",
+      )}
+    >
       <div className="container-page flex h-16 items-center justify-between gap-4 md:h-20">
         <Link to="/" className="flex items-center gap-2" aria-label="Magnitude Dance – acasă">
           <img src={logoAsset.url} alt="Magnitude Dance" className="h-10 w-auto md:h-12" />
