@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ImageOrPlaceholder } from "@/components/ImagePlaceholder";
 import { eventsQuery } from "@/lib/content";
-import { EventsTimeline } from "@/components/sections/EventsTimeline";
+import { EventsLegend, EventsTimeline } from "@/components/sections/EventsTimeline";
 
 export type EventItem = {
   id: string;
@@ -94,10 +94,15 @@ export function UpcomingEventsSection() {
   return (
     <section className="section-y bg-secondary/40" aria-labelledby="events-heading">
       <div className="container-page">
-        <p className="eyebrow">Evenimente</p>
-        <h2 id="events-heading" className="mt-2 text-3xl md:text-4xl">
-          Evenimente viitoare
-        </h2>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="eyebrow">Evenimente</p>
+            <h2 id="events-heading" className="mt-2 text-3xl md:text-4xl">
+              Evenimente viitoare
+            </h2>
+          </div>
+          <EventsLegend />
+        </div>
         <EventsTimeline />
         {upcoming.length > 0 && (
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
