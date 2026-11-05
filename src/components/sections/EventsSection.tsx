@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ImageOrPlaceholder } from "@/components/ImagePlaceholder";
 import { eventsQuery } from "@/lib/content";
+import { EventsTimeline } from "@/components/sections/EventsTimeline";
 
 export type EventItem = {
   id: string;
@@ -97,11 +98,8 @@ export function UpcomingEventsSection() {
         <h2 id="events-heading" className="mt-2 text-3xl md:text-4xl">
           Evenimente viitoare
         </h2>
-        {upcoming.length === 0 ? (
-          <p className="mt-6 rounded-2xl border border-dashed border-border bg-card p-8 text-center text-muted-foreground">
-            Momentan nu avem evenimente programate. Revino curând – pregătim mereu ceva.
-          </p>
-        ) : (
+        <EventsTimeline />
+        {upcoming.length > 0 && (
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {upcoming.slice(0, 3).map((event) => (
               <EventCard key={event.id} event={event} />

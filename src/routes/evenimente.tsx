@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, SiteLayout } from "@/components/layout/SiteLayout";
 import { EventCard, useEventBuckets } from "@/components/sections/EventsSection";
 import { Skeleton } from "@/components/ui/skeleton";
+import { EventsTimeline } from "@/components/sections/EventsTimeline";
 
 const title = "Evenimente de dans în Iași – Magnitude Dance";
 const description =
@@ -38,13 +39,9 @@ function EventsPage() {
           <h2 id="upcoming" className="text-3xl md:text-4xl">
             Evenimente viitoare
           </h2>
+          <EventsTimeline />
           {isLoading && <Skeleton className="mt-6 h-72 w-full rounded-2xl" />}
-          {!isLoading && upcoming.length === 0 ? (
-            <p className="mt-6 rounded-2xl border border-dashed border-border bg-card p-8 text-center text-muted-foreground">
-              Momentan nu avem evenimente programate. Urmărește-ne pe rețelele sociale pentru
-              anunțuri.
-            </p>
-          ) : (
+          {!isLoading && upcoming.length > 0 && (
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {upcoming.map((event) => (
                 <EventCard key={event.id} event={event} />
