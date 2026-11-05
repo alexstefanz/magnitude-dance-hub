@@ -31,6 +31,24 @@ const KIND_STYLE: Record<TimelineItem["kind"], { dot: string; tag: string; name:
 
 const MONTHS: Record<string, string> = { "11": "Noiembrie 2026", "12": "Decembrie 2026" };
 
+export function EventsLegend() {
+  const items = [
+    { dot: "bg-destructive", name: "Evenimente Speciale" },
+    { dot: "bg-primary", name: "Social Party" },
+    { dot: "bg-accent", name: "Cursuri" },
+  ];
+  return (
+    <ul className="flex flex-wrap gap-x-5 gap-y-2 rounded-2xl border border-border bg-card px-5 py-3 text-sm font-medium" aria-label="Legenda culorilor">
+      {items.map((i) => (
+        <li key={i.name} className="inline-flex items-center gap-2">
+          <span className={`size-3 rounded-full ${i.dot}`} aria-hidden="true" />
+          {i.name}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function EventsTimeline() {
   const today = new Date().toISOString().slice(0, 10);
   const visible = ITEMS.filter((i) => (i.end ?? i.start) >= today);

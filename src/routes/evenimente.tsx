@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, SiteLayout } from "@/components/layout/SiteLayout";
 import { EventCard, useEventBuckets } from "@/components/sections/EventsSection";
 import { Skeleton } from "@/components/ui/skeleton";
-import { EventsTimeline } from "@/components/sections/EventsTimeline";
+import { EventsLegend, EventsTimeline } from "@/components/sections/EventsTimeline";
 
 const title = "Evenimente de dans în Iași – Magnitude Dance";
 const description =
@@ -36,9 +36,12 @@ function EventsPage() {
 
       <section className="section-y bg-background" aria-labelledby="upcoming">
         <div className="container-page">
-          <h2 id="upcoming" className="text-3xl md:text-4xl">
-            Evenimente viitoare
-          </h2>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <h2 id="upcoming" className="text-3xl md:text-4xl">
+              Evenimente viitoare
+            </h2>
+            <EventsLegend />
+          </div>
           <EventsTimeline />
           {isLoading && <Skeleton className="mt-6 h-72 w-full rounded-2xl" />}
           {!isLoading && upcoming.length > 0 && (
