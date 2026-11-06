@@ -14,16 +14,16 @@ export function SocialSection() {
   return (
     <section className="section-y bg-background" aria-labelledby="social-heading">
       <div className="container-page">
-        <p className="eyebrow">Social media</p>
-        <h2 id="social-heading" className="mt-2 text-3xl md:text-4xl">
+        <p className="text-center eyebrow">Social media</p>
+        <h2 id="social-heading" className="text-center mt-2 text-3xl md:text-4xl">
           Urmărește Magnitude
         </h2>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
+        <p className="mt-3 mx-auto max-w-2xl text-center text-muted-foreground">
           Reels de la cursuri, petreceri și evenimente. Cele mai noi clipuri apar mereu pe rețelele
           noastre.
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
           {links.map(({ label, url, icon: Icon }) =>
             url ? (
               <Button key={label} asChild variant="outline">

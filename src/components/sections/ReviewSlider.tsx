@@ -40,13 +40,13 @@ export function ReviewSlider() {
   return (
     <section className="section-y bg-secondary/40" aria-labelledby="reviews-heading">
       <div className="container-page">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-col items-center gap-4 text-center">
           <div>
             <p className="eyebrow">Recenzii Google</p>
             <h2 id="reviews-heading" className="mt-2 text-3xl md:text-4xl">
               Ce spun cursanții?
             </h2>
-            <p className="mt-3 flex items-center gap-2 text-sm text-muted-foreground">
+            <p className="mt-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
               <span className="font-display text-2xl font-bold text-foreground">
                 {get("google_reviews_rating", "4.7")}
               </span>
