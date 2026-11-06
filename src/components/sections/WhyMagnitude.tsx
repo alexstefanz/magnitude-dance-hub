@@ -58,11 +58,11 @@ export function WhyMagnitude() {
   return (
     <section className="surface-ink section-y" aria-labelledby="why-heading">
       <div className="container-page">
-        <p className="eyebrow text-accent">Comunitate</p>
-        <h2 id="why-heading" className="mt-2 text-3xl md:text-4xl">
+        <p className="text-center eyebrow text-accent">Comunitate</p>
+        <h2 id="why-heading" className="text-center mt-2 text-3xl md:text-4xl">
           De ce Magnitude?
         </h2>
-        <p className="mt-3 max-w-2xl text-ink-foreground/75">
+        <p className="mt-3 mx-auto max-w-2xl text-center text-ink-foreground/75">
           Nu suntem doar o școală de dans. Suntem o comunitate: dansăm, socializăm, ieșim împreună,
           urcăm pe scenă și ne distrăm.
         </p>

@@ -82,11 +82,11 @@ export function PricingSection({ compactCategory }: { compactCategory?: string }
   return (
     <section className="section-y bg-background" aria-labelledby="pricing-heading">
       <div className="container-page">
-        <p className="eyebrow">Prețuri</p>
-        <h2 id="pricing-heading" className="mt-2 text-3xl md:text-4xl">
+        <p className="text-center eyebrow">Prețuri</p>
+        <h2 id="pricing-heading" className="text-center mt-2 text-3xl md:text-4xl">
           Abonamente &amp; Prețuri
         </h2>
-        <p className="mt-3 max-w-2xl text-muted-foreground">
+        <p className="mt-3 mx-auto max-w-2xl text-center text-muted-foreground">
           Alege varianta care ți se potrivește. Pentru orice întrebare, scrie-ne pe WhatsApp – îți
           răspundem repede.
         </p>
