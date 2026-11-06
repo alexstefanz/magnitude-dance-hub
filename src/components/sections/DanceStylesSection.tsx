@@ -26,6 +26,8 @@ const STYLE_IMAGES: Record<string, string> = {
   "sedinte-private": privateAsset.url,
 };
 
+const LOWER_FOCUS = new Set(["bachata", "kizomba", "rueda-de-casino", "sedinte-private"]);
+
 export type DanceStyle = {
   id: string;
   slug: string;
@@ -44,7 +46,9 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
           src={STYLE_IMAGES[style.slug] || style.image_url || null}
           alt={`Curs de ${style.name} la Magnitude Dance Iași`}
           label="[Fotografie curs – de înlocuit]"
-          imageClassName="transition-transform duration-500 group-hover:scale-105"
+          imageClassName={`transition-transform duration-500 group-hover:scale-105 ${
+            LOWER_FOCUS.has(style.slug) ? "object-bottom" : ""
+          }`}
         />
       </div>
       <div className="flex flex-1 flex-col p-5">
