@@ -105,7 +105,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="w-[85vw] border-white/10 bg-ink p-0 text-ink-foreground sm:max-w-sm"
+              className="w-[85vw] border-white/10 bg-ink p-0 text-ink-foreground sm:max-w-sm [&>button:first-child]:hidden"
             >
               <SheetHeader className="sr-only">
                 <SheetTitle>Meniu de navigare</SheetTitle>
