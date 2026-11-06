@@ -43,7 +43,10 @@ export function ScheduleCard({ entry, dark }: { entry: ScheduleEntry; dark?: boo
       </div>
 
       <div className="min-w-0 flex-1">
-        <h3 className="truncate font-display text-base font-bold md:text-lg">{entry.style_label}</h3>
+        <h3 className="truncate font-display text-base font-bold md:text-lg">
+          {entry.style_label}
+          {entry.level ? ` - ${entry.level}` : ""}
+        </h3>
         <p
           className={cn(
             "mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm",

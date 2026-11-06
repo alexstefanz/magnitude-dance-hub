@@ -88,7 +88,10 @@ export function HeroSection() {
               todayEntries.map((entry) => (
                 <div key={entry.id} className="flex items-center justify-between gap-4 py-3">
                   <div className="min-w-0">
-                    <p className="truncate font-semibold">{entry.style_label}</p>
+                    <p className="truncate font-semibold">
+                      {entry.style_label}
+                      {entry.level ? ` - ${entry.level}` : ""}
+                    </p>
                     <p className="text-xs text-ink-foreground/65">{entry.room}</p>
                   </div>
                   <span className="shrink-0 font-display font-bold text-accent">
