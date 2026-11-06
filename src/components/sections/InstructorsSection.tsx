@@ -5,6 +5,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ImageOrPlaceholder } from "@/components/ImagePlaceholder";
 import { instructorsQuery } from "@/lib/content";
+import stefanPhoto from "@/assets/instructor-stefan-cosmin.jpg.asset.json";
+import stefPhoto from "@/assets/instructor-stef.jpg.asset.json";
+import vladPhoto from "@/assets/instructor-vlad.jpg.asset.json";
+import allePhoto from "@/assets/instructor-ale.jpg.asset.json";
+
+const instructorPhotos: Record<string, string> = {
+  "stefan-cosmin-ioneasa": stefanPhoto.url,
+  stefania: stefPhoto.url,
+  vlad: vladPhoto.url,
+  alle: allePhoto.url,
+};
 
 export type Instructor = {
   id: string;
@@ -34,7 +45,7 @@ export function InstructorCard({
     <article className="card-elevated flex flex-col overflow-hidden">
       <div className="aspect-3/4 overflow-hidden">
         <ImageOrPlaceholder
-          src={instructor.image_url}
+          src={instructor.image_url || instructorPhotos[instructor.slug] || null}
           alt={`${instructor.name} – instructor Magnitude Dance`}
           label="[Fotografie instructor – de înlocuit]"
         />
