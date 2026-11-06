@@ -89,6 +89,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale", content: "ro_RO" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#12101c" },
+      // TEMPORARY: block indexing while hosted on a temporary subdomain. Remove before going live.
+      { name: "robots", content: "noindex, nofollow" },
     ],
     links: [
       {
