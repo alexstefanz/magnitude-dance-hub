@@ -47,7 +47,7 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
           alt={`Curs de ${style.name} la Magnitude Dance Iași`}
           label="[Fotografie curs – de înlocuit]"
           imageClassName={`transition-transform duration-500 group-hover:scale-105 ${
-            LOWER_FOCUS.has(style.slug) ? "object-top" : ""
+            LOWER_FOCUS.has(style.slug) ? "object-[center_15%]" : ""
           }`}
         />
       </div>
