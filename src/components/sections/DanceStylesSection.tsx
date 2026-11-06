@@ -6,13 +6,14 @@ import { ImageOrPlaceholder } from "@/components/ImagePlaceholder";
 import { danceStylesQuery } from "@/lib/content";
 import { stylePath } from "@/lib/routes";
 import { Skeleton } from "@/components/ui/skeleton";
-import salsaAsset from "@/assets/style-salsa.jpg.asset.json";
-import bachataAsset from "@/assets/style-bachata.jpg.asset.json";
-import kizombaAsset from "@/assets/style-kizomba.jpg.asset.json";
-import weddingAsset from "@/assets/style-wedding.jpg.asset.json";
-import ruedaAsset from "@/assets/style-rueda.jpg.asset.json";
-import kidsAsset from "@/assets/style-kids-fixed.jpg.asset.json";
-import ladyAsset from "@/assets/style-lady-fixed.jpg.asset.json";
+import salsaAsset from "@/assets/style-salsa-real.jpg.asset.json";
+import bachataAsset from "@/assets/style-bachata-real.jpg.asset.json";
+import kizombaAsset from "@/assets/style-kizomba-real.jpg.asset.json";
+import weddingAsset from "@/assets/style-wedding-real.jpg.asset.json";
+import ruedaAsset from "@/assets/style-rueda-real.jpg.asset.json";
+import kidsAsset from "@/assets/style-kids-real.jpg.asset.json";
+import ladyAsset from "@/assets/style-lady-real.jpg.asset.json";
+import privateAsset from "@/assets/style-private.png.asset.json";
 
 const STYLE_IMAGES: Record<string, string> = {
   salsa: salsaAsset.url,
@@ -22,6 +23,7 @@ const STYLE_IMAGES: Record<string, string> = {
   "rueda-de-casino": ruedaAsset.url,
   "dans-modern-copii": kidsAsset.url,
   "lady-styling": ladyAsset.url,
+  "sedinte-private": privateAsset.url,
 };
 
 export type DanceStyle = {
@@ -30,15 +32,16 @@ export type DanceStyle = {
   name: string;
   short_description: string | null;
   image_url: string | null;
+  href?: "/contact";
 };
 
 export function DanceStyleCard({ style }: { style: DanceStyle }) {
-  const href = stylePath(style.slug);
+  const href = style.href ?? stylePath(style.slug);
   return (
     <article className="card-elevated group flex w-full flex-col overflow-hidden">
       <div className="aspect-4/3 overflow-hidden">
         <ImageOrPlaceholder
-          src={style.image_url || STYLE_IMAGES[style.slug] || null}
+          src={STYLE_IMAGES[style.slug] || style.image_url || null}
           alt={`Curs de ${style.name} la Magnitude Dance Iași`}
           label="[Fotografie curs – de înlocuit]"
           imageClassName="transition-transform duration-500 group-hover:scale-105"
@@ -64,7 +67,20 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
 
 export function DanceStylesSection() {
   const { data, isLoading } = useQuery(danceStylesQuery);
-  const styles = (data ?? []) as DanceStyle[];
+  const styles = data
+    ? [
+        ...(data as DanceStyle[]),
+        {
+          id: "sedinte-private",
+          slug: "sedinte-private",
+          name: "Ședințe private",
+          short_description:
+            "Lecții individuale sau în cuplu, adaptate ritmului și obiectivelor tale.",
+          image_url: null,
+          href: "/contact" as const,
+        },
+      ]
+    : [];
 
   return (
     <section className="section-y bg-secondary/40" aria-labelledby="styles-heading">
