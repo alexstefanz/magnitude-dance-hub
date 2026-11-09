@@ -51,9 +51,9 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
           }`}
         />
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-xl font-bold">{style.name}</h3>
-        <p className="mt-2 flex-1 text-sm text-muted-foreground">
+      <div className="flex flex-1 flex-col p-3 sm:p-5">
+        <h3 className="font-display text-base font-bold sm:text-xl">{style.name}</h3>
+        <p className="mt-2 flex-1 text-xs text-muted-foreground sm:text-sm">
           {style.short_description || "[Descriere – de completat]"}
         </p>
         {href && (
@@ -98,18 +98,18 @@ export function DanceStylesSection() {
           hai să dansăm.
         </p>
 
-        <div className="mt-9 flex flex-wrap justify-center gap-6">
+        <div className="mt-9 flex flex-wrap justify-center gap-3 sm:gap-6">
           {isLoading &&
             Array.from({ length: 4 }).map((_, i) => (
               <Skeleton
                 key={i}
-                className="h-80 w-full rounded-2xl sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+                className="h-80 w-[calc(50%-0.375rem)] rounded-2xl sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
               />
             ))}
           {styles.map((style) => (
             <div
               key={style.id}
-              className="flex w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
+              className="flex w-[calc(50%-0.375rem)] sm:w-[calc(50%-0.75rem)] lg:w-[calc(25%-1.125rem)]"
             >
               <DanceStyleCard style={style} />
             </div>
