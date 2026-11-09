@@ -57,7 +57,7 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
           {style.short_description || "[Descriere – de completat]"}
         </p>
         {href && (
-          <Button asChild variant="outline" className="mt-4 w-full sm:w-auto sm:self-start">
+          <Button asChild variant="outline" className="mt-4 h-8 w-full gap-1 px-2 text-xs [&_svg]:size-3.5 sm:h-10 sm:w-auto sm:gap-2 sm:self-start sm:px-5 sm:text-sm sm:[&_svg]:size-4">
             <Link to={href}>
               Descoperă cursul
               <ArrowRight aria-hidden="true" />
