@@ -57,7 +57,7 @@ export function DanceStyleCard({ style }: { style: DanceStyle }) {
           {style.short_description || "[Descriere – de completat]"}
         </p>
         {href && (
-          <Button asChild variant="outline" className="mt-4 self-start">
+          <Button asChild variant="outline" className="mt-4 w-full sm:w-auto sm:self-start">
             <Link to={href}>
               Descoperă cursul
               <ArrowRight aria-hidden="true" />

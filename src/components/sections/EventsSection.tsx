@@ -63,7 +63,7 @@ export function EventCard({ event }: { event: EventItem }) {
           <p className="mt-3 flex-1 text-sm text-muted-foreground">{event.short_description}</p>
         )}
         {link && (
-          <Button asChild variant="outline" className="mt-4 self-start">
+          <Button asChild variant="outline" className="mt-4 w-full sm:w-auto sm:self-start">
             <a href={link} target="_blank" rel="noopener noreferrer">
               Detalii
               <ExternalLink aria-hidden="true" />
@@ -94,7 +94,7 @@ export function UpcomingEventsSection() {
   return (
     <section className="section-y bg-secondary/40" aria-labelledby="events-heading">
       <div className="container-page">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:text-left">
           <div>
             <p className="eyebrow">Evenimente</p>
             <h2 id="events-heading" className="mt-2 text-3xl md:text-4xl">
