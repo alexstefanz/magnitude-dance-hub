@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const TRUSTINDEX_SRC = "https://cdn.trustindex.io/loader.js?af7f0d86939e750dbd06ceb7d4e";
+const TRUSTINDEX_SRC = "https://cdn.trustindex.io/loader.js?b8d8a878525b3618da46f3c6c00";
 
 export function ReviewSlider() {
   const containerRef = useRef<HTMLDivElement>(null);
