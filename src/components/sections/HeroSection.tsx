@@ -50,7 +50,7 @@ export function HeroSection() {
       </div>
 
       <div className="container-page grid min-h-[100svh] items-end gap-10 pb-14 pt-32 md:pb-20 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <div>
+        <div className="text-center lg:text-left [&_h1]:mx-auto [&_p]:mx-auto lg:[&_h1]:mx-0 lg:[&_p]:mx-0">
           <p className="eyebrow text-accent">Școală &amp; comunitate de dans în Iași</p>
           <h1 className="mt-4 max-w-4xl text-5xl leading-[1.05] md:text-7xl">
             {get("hero_title", "Magnitude Dance")}
@@ -62,9 +62,9 @@ export function HeroSection() {
             )}
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <WhatsAppButton variant="whatsapp" />
-            <Button asChild size="lg" variant="outlineLight">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
+            <WhatsAppButton variant="whatsapp" className="w-full sm:w-auto" />
+            <Button asChild size="lg" variant="outlineLight" className="w-full sm:w-auto">
               <Link to="/inscrieri-active">
                 <Sparkles aria-hidden="true" />
                 Înscrieri active
