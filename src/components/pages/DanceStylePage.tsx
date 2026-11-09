@@ -10,6 +10,7 @@ import { InstructorCard, type Instructor } from "@/components/sections/Instructo
 import { RegistrationForm } from "@/components/forms/RegistrationForm";
 import { PricingSection } from "@/components/sections/PricingSection";
 import { VideoModal } from "@/components/VideoModal";
+import { COURSE_CONTENT } from "@/lib/course-content";
 import { danceStylesQuery, instructorsQuery, scheduleQuery, DAYS } from "@/lib/content";
 
 type Style = {
@@ -39,13 +40,14 @@ export function DanceStylePage({ slug }: { slug: string }) {
   );
 
   const title = style?.name ?? "Curs de dans";
+  const content = COURSE_CONTENT[slug];
 
   return (
     <SiteLayout>
       <PageHero
         eyebrow="Curs de dans"
-        title={title}
-        description={style?.short_description ?? "[Descriere curs – de completat]"}
+        title={content?.heading ?? title}
+        description={content?.intro ?? style?.short_description ?? "[Descriere curs – de completat]"}
       >
         <WhatsAppButton
           variant="whatsapp"
@@ -59,6 +61,52 @@ export function DanceStylePage({ slug }: { slug: string }) {
         </Button>
       </PageHero>
 
+      {content ? (
+        <>
+          <section className="section-y bg-background" aria-labelledby="course-why">
+            <div className="container-page grid gap-10 lg:grid-cols-2 lg:items-center">
+              <div className="overflow-hidden rounded-2xl">
+                <img
+                  src={content.image}
+                  alt={`Curs de ${title} la Magnitude Dance Iași`}
+                  className="aspect-4/5 w-full object-cover"
+                  loading="lazy"
+                />
+              </div>
+              <div className="space-y-6 text-center md:text-left">
+                <h2 id="course-why" className="text-3xl md:text-4xl">{content.whyTitle}</h2>
+                <ul className="space-y-4">
+                  {content.why.map((p) => (
+                    <li key={p.title} className="rounded-2xl border border-border bg-card p-5">
+                      <h3 className="font-display text-lg font-bold">{p.title}</h3>
+                      <p className="mt-1 text-muted-foreground">{p.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </section>
+          <section className="section-y bg-secondary/40" aria-labelledby="course-learn">
+            <div className="container-page">
+              <h2 id="course-learn" className="text-center text-3xl md:text-4xl">{content.learnTitle}</h2>
+              <p className="mx-auto mt-3 max-w-2xl text-center text-muted-foreground">{content.learnIntro}</p>
+              <div className="mt-8 grid gap-6 md:grid-cols-3">
+                {content.learn.map((p) => (
+                  <div key={p.title} className="rounded-2xl border border-border bg-card p-6 text-center">
+                    <Check className="mx-auto size-6 text-primary" aria-hidden="true" />
+                    <h3 className="mt-3 font-display text-lg font-bold">{p.title}</h3>
+                    <p className="mt-1 text-muted-foreground">{p.text}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="mx-auto mt-12 max-w-2xl text-center">
+                <h3 className="text-2xl md:text-3xl">{content.closingTitle}</h3>
+                <p className="mt-3 text-muted-foreground">{content.closing}</p>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
       <section className="section-y bg-background">
         <div className="container-page grid gap-10 lg:grid-cols-2 lg:items-start">
           <div className="overflow-hidden rounded-2xl">
@@ -108,6 +156,7 @@ export function DanceStylePage({ slug }: { slug: string }) {
           </div>
         </div>
       </section>
+      )}
 
       <section className="section-y bg-secondary/40" aria-labelledby="style-schedule">
         <div className="container-page">

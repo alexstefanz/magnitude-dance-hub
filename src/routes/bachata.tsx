@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { DanceStylePage } from "@/components/pages/DanceStylePage";
 
-const title = "Cursuri de Bachata în Iași – Magnitude Dance";
-const description =
-  "Cursuri de bachata sensual și dominicană în Iași, pentru începători și avansați. Grupe noi în fiecare lună.";
+// SEO title/description kept identical to the previous magnitudedance.ro page.
+const title = 'Magnitude Dance | Cursuri Bachata Iași – Dans romantic & expresiv';
+const description = 'Explorează bachata la Magnitude Dance Iași – un dans pasional din Republica Dominicană, cu mișcări fluide, conexiune emoțională și stil personalizat pentru toate nivelurile.';
+const url = "https://zorila-alexandru.ro/bachata";
+const image = "https://magnitudedance.ro/wp-content/uploads/2025/01/IMG_8712.jpg";
 
 export const Route = createFileRoute("/bachata")({
   head: () => ({
@@ -12,10 +14,13 @@ export const Route = createFileRoute("/bachata")({
       { name: "description", content: description },
       { property: "og:title", content: title },
       { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/bachata" },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: url },
+      { property: "og:image", content: image },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:image", content: image },
     ],
-    links: [{ rel: "canonical", href: "/bachata" }],
+    links: [{ rel: "canonical", href: url }],
   }),
   component: () => <DanceStylePage slug="bachata" />,
 });
