@@ -50,10 +50,10 @@ export function InstructorCard({
           label="[Fotografie instructor – de înlocuit]"
         />
       </div>
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg font-bold">{instructor.name}</h3>
+      <div className="flex flex-1 flex-col p-3 sm:p-5">
+        <h3 className="font-display text-base font-bold sm:text-lg">{instructor.name}</h3>
         {instructor.role_title && (
-          <p className="text-sm font-medium text-primary">{instructor.role_title}</p>
+          <p className="text-xs font-medium text-primary sm:text-sm">{instructor.role_title}</p>
         )}
         {instructor.styles.length > 0 && (
           <div className="mt-3 flex flex-wrap gap-1.5">
@@ -161,7 +161,7 @@ export function InstructorsIntroSection() {
           </div>
         </div>
 
-        <div className="mt-9 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-9 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
           {instructors.map((instructor) => (
             <InstructorCard key={instructor.id} instructor={instructor} />
           ))}
