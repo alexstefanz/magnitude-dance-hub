@@ -36,8 +36,8 @@ export function WhyMagnitudeCard({ item }: { item: WhyItem }) {
   const video = item.reel_url || item.video_url;
 
   return (
-    <article className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/50">
-      <span className="flex size-12 items-center justify-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground">
+    <article className="group rounded-2xl border border-white/10 bg-white/5 p-6 transition-all duration-200 hover:-translate-y-1 hover:border-accent/50 text-center sm:text-left">
+      <span className="mx-auto sm:mx-0 flex size-12 items-center justify-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground">
         <Icon className="size-6" aria-hidden="true" />
       </span>
       <h3 className="mt-4 font-display text-xl font-bold">{item.title}</h3>
