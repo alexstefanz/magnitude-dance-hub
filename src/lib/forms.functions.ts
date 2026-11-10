@@ -75,7 +75,7 @@ export const submitRegistration = createServerFn({ method: "POST" })
     if (data.honeypot) return { ok: true as const };
     const supabaseAdmin = await guard("registration");
 
-    const { error } = await supabaseAdmin.from("registrations").insert({
+    const { data: inserted, error } = await supabaseAdmin.from("registrations").insert({
       first_name: data.firstName,
       last_name: data.lastName,
       phone: data.phone,
@@ -86,11 +86,17 @@ export const submitRegistration = createServerFn({ method: "POST" })
       gdpr_consent: true,
       gdpr_consent_at: new Date().toISOString(),
       source_page: data.sourcePage || null,
-    });
+    }).select("id").single();
 
     if (error) {
       console.error("registration insert failed", error);
       throw new Error("Nu am putut trimite formularul. Te rugăm să încerci din nou.");
+    }
+    try {
+      const { notifyInstructorWhatsApp } = await import("./whatsapp.server");
+      await notifyInstructorWhatsApp(supabaseAdmin, inserted?.id ?? null, data);
+    } catch (e) {
+      console.error("whatsapp notify failed", e);
     }
     return { ok: true as const };
   });
