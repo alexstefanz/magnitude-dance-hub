@@ -9,9 +9,10 @@ import { ReviewSlider } from "@/components/sections/ReviewSlider";
 import { UpcomingEventsSection } from "@/components/sections/EventsSection";
 import { SocialSection } from "@/components/sections/SocialSection";
 
-const title = "Magnitude Dance Iași – Cursuri de Salsa, Bachata și Kizomba";
+// SEO title/description kept identical to the previous magnitudedance.ro page.
+const title = "Magnitude Dance Iași | Cursuri Salsa, Bachata, Kizomba & Petreceri";
 const description =
-  "Școala și comunitatea de dans latino din Iași: cursuri de salsa, bachata, kizomba, petreceri săptămânale și evenimente. Înscrie-te acum!";
+  "Descoperă comunitatea Magnitude Dance din Iași – cursuri de salsa, bachata, kizomba pentru toate nivelurile, social party-uri, coregrafii și evenimente internationale. Energie, pasiune și vibe autentic!";
 
 export const Route = createFileRoute("/")({
   head: () => ({
