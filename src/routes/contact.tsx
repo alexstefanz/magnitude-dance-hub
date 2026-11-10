@@ -6,9 +6,10 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { useSettings } from "@/hooks/use-settings";
 import { telLink } from "@/lib/whatsapp";
 
-const title = "Contact & Înscrieri – Magnitude Dance Iași";
+// SEO title/description kept identical to the previous magnitudedance.ro page.
+const title = "Magnitude Dance | Contact Magnitude Dance Iași – Înscrieri & Studio";
 const description =
-  "Contactează Magnitude Dance Iași: telefon, email, adresă și formular de înscriere la cursurile de salsa, bachata și kizomba.";
+  "Ia legătura cu Magnitude Dance Iași – înscrieri cursuri de dans, programări private, adresa studioului (Aleea Vasile Petrescu 5), telefon și email.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
