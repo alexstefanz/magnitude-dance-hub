@@ -29,7 +29,7 @@ export function PageHero({
 }) {
   return (
     <section className="surface-ink">
-      <div className="container-page py-14 md:py-20">
+      <div className="container-page pt-28 pb-14 md:pt-32 md:pb-16">
         {eyebrow && <p className="eyebrow text-accent">{eyebrow}</p>}
         <h1 className="mt-3 max-w-3xl text-4xl leading-tight md:text-6xl">{title}</h1>
         {description && (
