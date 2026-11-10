@@ -1,5 +1,5 @@
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/whatsapp";
-const TEMPLATE = "inscriere_noua_curs";
+const TEMPLATE = "notificare_inscriere_curs";
 const RANK: Record<string, number> = { accepted: 0, sent: 1, delivered: 2, read: 3, failed: 4 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
