@@ -9,9 +9,8 @@ export const Route = createFileRoute("/api/public/whatsapp/webhook")({
         if (!secret) return new Response("not configured", { status: 500 });
         let body: string;
         try {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const r: any = await verifyWebhookRequest({ request, secret, maxBodyBytes: 4 * 1024 * 1024 } as any);
-          body = typeof r === "string" ? r : (r?.body ?? r?.rawBody ?? "");
+          const r = await verifyWebhookRequest({ req: request, secret, maxBodyBytes: 4 * 1024 * 1024 });
+          body = r.body;
         } catch {
           return new Response("unauthorized", { status: 401 });
         }
