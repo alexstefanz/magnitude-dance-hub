@@ -713,6 +713,69 @@ export type Database = {
         }
         Relationships: []
       }
+      whatsapp_notifications: {
+        Row: {
+          created_at: string
+          error: string | null
+          id: string
+          provider_message_id: string | null
+          recipient: string
+          registration_id: string | null
+          status: string
+          status_updated_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          provider_message_id?: string | null
+          recipient: string
+          registration_id?: string | null
+          status?: string
+          status_updated_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          error?: string | null
+          id?: string
+          provider_message_id?: string | null
+          recipient?: string
+          registration_id?: string | null
+          status?: string
+          status_updated_at?: string | null
+        }
+        Relationships: []
+      }
+      whatsapp_webhook_events: {
+        Row: {
+          delivery_id: string
+          event: string
+          id: string
+          payload: Json
+          processed_at: string | null
+          processing_error: string | null
+          received_at: string
+        }
+        Insert: {
+          delivery_id: string
+          event: string
+          id?: string
+          payload: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+        }
+        Update: {
+          delivery_id?: string
+          event?: string
+          id?: string
+          payload?: Json
+          processed_at?: string | null
+          processing_error?: string | null
+          received_at?: string
+        }
+        Relationships: []
+      }
       why_magnitude_items: {
         Row: {
           created_at: string
