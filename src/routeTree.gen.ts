@@ -31,6 +31,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as RuedaDeCasinoRouteImport } from './routes/rueda-de-casino'
 import { Route as SalsaRouteImport } from './routes/salsa'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as ApiPublicWhatsappWebhookRouteImport } from './routes/api/public/whatsapp/webhook'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -142,6 +143,12 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicWhatsappWebhookRoute =
+  ApiPublicWhatsappWebhookRouteImport.update({
+    id: '/api/public/whatsapp/webhook',
+    path: '/api/public/whatsapp/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -165,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -188,6 +196,7 @@ export interface FileRoutesByTo {
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -213,6 +222,7 @@ export interface FileRoutesById {
   '/rueda-de-casino': typeof RuedaDeCasinoRoute
   '/salsa': typeof SalsaRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/rueda-de-casino'
     | '/salsa'
     | '/admin'
+    | '/api/public/whatsapp/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '/rueda-de-casino'
     | '/salsa'
     | '/admin'
+    | '/api/public/whatsapp/webhook'
   id:
     | '__root__'
     | '/'
@@ -285,6 +297,7 @@ export interface FileRouteTypes {
     | '/rueda-de-casino'
     | '/salsa'
     | '/_authenticated/admin'
+    | '/api/public/whatsapp/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -309,6 +322,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   RuedaDeCasinoRoute: typeof RuedaDeCasinoRoute
   SalsaRoute: typeof SalsaRoute
+  ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -467,6 +481,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/whatsapp/webhook': {
+      id: '/api/public/whatsapp/webhook'
+      path: '/api/public/whatsapp/webhook'
+      fullPath: '/api/public/whatsapp/webhook'
+      preLoaderRoute: typeof ApiPublicWhatsappWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -503,6 +524,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   RuedaDeCasinoRoute: RuedaDeCasinoRoute,
   SalsaRoute: SalsaRoute,
+  ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
