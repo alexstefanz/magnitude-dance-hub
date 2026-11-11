@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { CalendarDays, Inbox, ListTodo, LogOut, Music, Settings, ShieldAlert, Tag, Users } from "lucide-react";
+import { CalendarDays, Inbox, ListTodo, LogOut, Menu, Music, Settings, ShieldAlert, Tag, Users } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -183,6 +183,7 @@ function AdminPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [section, setSection] = useState("inscrieri");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const roleQuery = useQuery({
     queryKey: ["is_admin"],
