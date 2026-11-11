@@ -12,6 +12,7 @@ import { AdminCrud, type AdminField } from "@/components/admin/AdminCrud";
 import { UsersPanel } from "@/components/admin/UsersPanel";
 import { TasksPanel } from "@/components/admin/TasksPanel";
 import { OverviewPanel } from "@/components/admin/OverviewPanel";
+import { BulkWhatsAppDialog } from "@/components/admin/BulkWhatsAppDialog";
 import {
   DAYS,
   FEEDBACK_STATUS_LABELS,
@@ -397,16 +398,55 @@ function RegistrationsPanel() {
     onError: (error: Error) => toast.error(error.message),
   });
 
+  const [courseFilter, setCourseFilter] = useState("");
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+
   if (query.isLoading) return <Skeleton className="h-64 w-full rounded-2xl" />;
-  const rows = query.data ?? [];
+  const all = query.data ?? [];
+  const courses = Array.from(new Set(all.map((r) => r.selected_course).filter(Boolean))) as string[];
+  const rows = courseFilter ? all.filter((r) => r.selected_course === courseFilter) : all;
+  const visibleSelected = rows.filter((r) => selected.has(r.id)).map((r) => r.id);
+  const allChecked = rows.length > 0 && visibleSelected.length === rows.length;
+  const toggle = (id: string) =>
+    setSelected((prev) => { const n = new Set(prev); if (n.has(id)) n.delete(id); else n.add(id); return n; });
 
   return (
     <section className="space-y-4">
-      <h2 className="font-display text-xl font-bold">Înscrieri ({rows.length})</h2>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="font-display text-xl font-bold">Înscrieri ({rows.length})</h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <select
+            value={courseFilter}
+            onChange={(e) => { setCourseFilter(e.target.value); setSelected(new Set()); }}
+            aria-label="Filtrează după curs"
+            className="h-10 rounded-lg border border-input bg-background px-3 text-sm"
+          >
+            <option value="">Toate cursurile</option>
+            {courses.map((c) => <option key={c} value={c}>{c}</option>)}
+          </select>
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={allChecked}
+              onChange={() => setSelected(allChecked ? new Set() : new Set(rows.map((r) => r.id)))}
+            />
+            Selectează tot
+          </label>
+          <BulkWhatsAppDialog ids={visibleSelected} defaultCourse={courseFilter} onDone={() => setSelected(new Set())} />
+        </div>
+      </div>
       <ul className="space-y-3">
         {rows.map((row) => (
           <li key={row.id} className="rounded-xl border border-border bg-card p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="flex items-start gap-3">
+              <input
+                type="checkbox"
+                className="mt-1.5"
+                checked={selected.has(row.id)}
+                onChange={() => toggle(row.id)}
+                aria-label={`Selectează ${row.first_name}`}
+              />
               <div>
                 <p className="font-display font-bold">
                   {row.last_name} {row.first_name}
@@ -426,6 +466,7 @@ function RegistrationsPanel() {
                   </Badge>
                 )}
                 {row.message && <p className="mt-2 text-sm text-muted-foreground">{row.message}</p>}
+              </div>
               </div>
               <div className="flex flex-col items-end gap-2">
                 <span className="text-xs text-muted-foreground">
