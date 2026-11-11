@@ -125,7 +125,7 @@ export function TasksPanel() {
             className="grid gap-3 rounded-2xl border border-border bg-card p-4 md:grid-cols-2"
             onSubmit={(e) => { e.preventDefault(); if (form.title.trim()) create.mutate(); }}
           >
-            <Input className="md:col-span-2" placeholder="Ce trebuie făcut?" value={form.title} maxLength={200}
+            <Input placeholder="Ce trebuie făcut?" value={form.title} maxLength={200}
               onChange={(e) => setForm({ ...form, title: e.target.value })} required />
             <select className={selectCls} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
               {TASK_CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
@@ -136,7 +136,7 @@ export function TasksPanel() {
             <label className="grid gap-1 text-xs text-muted-foreground">START eveniment
               <Input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} />
             </label>
-            <Input placeholder="Responsabil (ex: Ștefan)" value={form.assignee} maxLength={100}
+            <Input className="md:col-span-2" placeholder="Responsabil (ex: Ștefan)" value={form.assignee} maxLength={100}
               onChange={(e) => setForm({ ...form, assignee: e.target.value })} />
             <Textarea className="md:col-span-2" rows={2} placeholder="Notițe (opțional)" value={form.notes} maxLength={2000}
               onChange={(e) => setForm({ ...form, notes: e.target.value })} />
