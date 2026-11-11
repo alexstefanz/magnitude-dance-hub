@@ -1,14 +1,15 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { LogOut, ShieldAlert } from "lucide-react";
+import { useState } from "react";
+import { CalendarDays, Inbox, ListTodo, LogOut, Music, Settings, ShieldAlert, Tag, Users } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AdminCrud, type AdminField } from "@/components/admin/AdminCrud";
 import { UsersPanel } from "@/components/admin/UsersPanel";
+import { TasksPanel } from "@/components/admin/TasksPanel";
 import {
   DAYS,
   FEEDBACK_STATUS_LABELS,
@@ -180,6 +181,7 @@ const REVIEW_FIELDS: AdminField[] = [
 function AdminPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const [section, setSection] = useState("inscrieri");
 
   const roleQuery = useQuery({
     queryKey: ["is_admin"],
@@ -229,147 +231,91 @@ function AdminPage() {
     );
   }
 
+  const sections = [
+    { id: "inscrieri", label: "Înscrieri", icon: Inbox },
+    { id: "orar", label: "Orar", icon: CalendarDays },
+    { id: "cursuri", label: "Cursuri", icon: Music },
+    { id: "preturi", label: "Prețuri", icon: Tag },
+    { id: "organizare", label: "Organizare", icon: ListTodo },
+    { id: "setari", label: "Setări", icon: Settings },
+    { id: "utilizatori", label: "Utilizatori", icon: Users },
+  ];
+
   return (
-    <div className="min-h-screen bg-secondary/30">
-      <header className="border-b border-border bg-card">
-        <div className="container-page flex flex-wrap items-center justify-between gap-3 py-4">
+    <div className="min-h-screen bg-secondary/30 md:flex">
+      <aside className="border-b border-border bg-card md:sticky md:top-0 md:flex md:h-screen md:w-64 md:shrink-0 md:flex-col md:border-b-0 md:border-r">
+        <div className="flex items-center justify-between gap-3 p-4 md:block md:p-6">
           <div>
             <p className="font-display text-lg font-extrabold">
               MAGNITUDE<span className="text-primary"> DANCE</span>
             </p>
             <p className="text-sm text-muted-foreground">Panou de administrare</p>
           </div>
-          <Button variant="outline" onClick={signOut}>
+          <Button variant="outline" size="sm" className="md:hidden" onClick={signOut}>
+            <LogOut aria-hidden="true" />
+          </Button>
+        </div>
+        <nav className="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-1 md:flex-col md:overflow-visible md:pb-0">
+          {sections.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setSection(item.id)}
+              className={`flex shrink-0 items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                section === item.id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              <item.icon className="size-4" aria-hidden="true" />
+              {item.label}
+            </button>
+          ))}
+        </nav>
+        <div className="hidden p-4 md:block">
+          <Button variant="outline" className="w-full" onClick={signOut}>
             <LogOut aria-hidden="true" />
             Deconectare
           </Button>
         </div>
-      </header>
+      </aside>
 
-      <main className="container-page py-8">
-        <Tabs defaultValue="inscrieri">
-          <TabsList className="flex h-auto flex-wrap justify-start gap-1">
-            <TabsTrigger value="inscrieri">Înscrieri</TabsTrigger>
-            <TabsTrigger value="feedback">Feedback</TabsTrigger>
-            <TabsTrigger value="orar">Orar</TabsTrigger>
-            <TabsTrigger value="cursuri">Cursuri</TabsTrigger>
-            <TabsTrigger value="instructori">Instructori</TabsTrigger>
-            <TabsTrigger value="preturi">Prețuri</TabsTrigger>
-            <TabsTrigger value="evenimente">Evenimente</TabsTrigger>
-            <TabsTrigger value="party">Party</TabsTrigger>
-            <TabsTrigger value="coregrafii">Coregrafii</TabsTrigger>
-            <TabsTrigger value="campanii">Campanii</TabsTrigger>
-            <TabsTrigger value="beneficii">De ce Magnitude</TabsTrigger>
-            <TabsTrigger value="recenzii">Recenzii</TabsTrigger>
-            <TabsTrigger value="setari">Setări</TabsTrigger>
-            <TabsTrigger value="utilizatori">Utilizatori</TabsTrigger>
-          </TabsList>
-
-          <div className="mt-6">
-            <TabsContent value="inscrieri">
-              <RegistrationsPanel />
-            </TabsContent>
-            <TabsContent value="feedback">
-              <FeedbackPanel />
-            </TabsContent>
-            <TabsContent value="orar">
-              <AdminCrud
-                table="schedule_entries"
-                title="Orar cursuri"
-                fields={SCHEDULE_FIELDS}
-                orderBy="day_of_week"
-                summary={(row) =>
-                  `${DAYS[Number(row["day_of_week"]) - 1] ?? ""} ${formatTime(
-                    String(row["start_time"] ?? ""),
-                  )} – ${String(row["style_label"] ?? "")} (${String(row["room"] ?? "")})`
-                }
-              />
-            </TabsContent>
-            <TabsContent value="cursuri">
-              <AdminCrud
-                table="dance_styles"
-                title="Cursuri de dans"
-                fields={STYLE_FIELDS}
-                summary={(row) => `${String(row["name"])} – /${String(row["slug"])}`}
-              />
-            </TabsContent>
-            <TabsContent value="instructori">
-              <AdminCrud
-                table="instructors"
-                title="Instructori"
-                fields={INSTRUCTOR_FIELDS}
-                summary={(row) => `${String(row["name"])} – ${String(row["role_title"] ?? "")}`}
-              />
-            </TabsContent>
-            <TabsContent value="preturi">
-              <AdminCrud
-                table="pricing_packages"
-                title="Abonamente"
-                fields={PRICING_FIELDS}
-                summary={(row) =>
-                  `${String(row["name"])} – ${String(row["price"])} ${String(row["price_unit"] ?? "")}`
-                }
-              />
-            </TabsContent>
-            <TabsContent value="evenimente">
-              <AdminCrud
-                table="events"
-                title="Evenimente"
-                fields={EVENT_FIELDS}
-                orderBy="start_date"
-                summary={(row) => `${String(row["title"])} – ${String(row["start_date"] ?? "")}`}
-              />
-            </TabsContent>
-            <TabsContent value="party">
-              <AdminCrud
-                table="party_events"
-                title="Party"
-                fields={PARTY_FIELDS}
-                summary={(row) => `${String(row["title"])} – ${String(row["party_date"] ?? "")}`}
-              />
-            </TabsContent>
-            <TabsContent value="coregrafii">
-              <AdminCrud
-                table="choreographies"
-                title="Coregrafii"
-                fields={CHOREO_FIELDS}
-                summary={(row) => `${String(row["title"])} – ${String(row["category"] ?? "")}`}
-              />
-            </TabsContent>
-            <TabsContent value="campanii">
-              <AdminCrud
-                table="enrollment_campaigns"
-                title="Campanii de înscriere"
-                fields={CAMPAIGN_FIELDS}
-                summary={(row) => String(row["title"])}
-              />
-            </TabsContent>
-            <TabsContent value="beneficii">
-              <AdminCrud
-                table="why_magnitude_items"
-                title="De ce Magnitude"
-                fields={WHY_FIELDS}
-                summary={(row) => String(row["title"])}
-              />
-            </TabsContent>
-            <TabsContent value="recenzii">
-              <AdminCrud
-                table="reviews"
-                title="Recenzii"
-                fields={REVIEW_FIELDS}
-                summary={(row) =>
-                  `${String(row["reviewer_name"])} – ${String(row["rating"])}/5`
-                }
-              />
-            </TabsContent>
-            <TabsContent value="setari">
-              <SettingsPanel />
-            </TabsContent>
-            <TabsContent value="utilizatori">
-              <UsersPanel currentUserId={roleQuery.data.userId} />
-            </TabsContent>
-          </div>
-        </Tabs>
+      <main className="min-w-0 flex-1 p-4 md:p-8">
+        {section === "inscrieri" && <RegistrationsPanel />}
+        {section === "orar" && (
+          <AdminCrud
+            table="schedule_entries"
+            title="Orar cursuri"
+            fields={SCHEDULE_FIELDS}
+            orderBy="day_of_week"
+            summary={(row) =>
+              `${DAYS[Number(row["day_of_week"]) - 1] ?? ""} ${formatTime(
+                String(row["start_time"] ?? ""),
+              )} – ${String(row["style_label"] ?? "")} (${String(row["room"] ?? "")})`
+            }
+          />
+        )}
+        {section === "cursuri" && (
+          <AdminCrud
+            table="dance_styles"
+            title="Cursuri de dans"
+            fields={STYLE_FIELDS}
+            summary={(row) => `${String(row["name"])} – /${String(row["slug"])}`}
+          />
+        )}
+        {section === "preturi" && (
+          <AdminCrud
+            table="pricing_packages"
+            title="Abonamente"
+            fields={PRICING_FIELDS}
+            summary={(row) =>
+              `${String(row["name"])} – ${String(row["price"])} ${String(row["price_unit"] ?? "")}`
+            }
+          />
+        )}
+        {section === "organizare" && <TasksPanel />}
+        {section === "setari" && <SettingsPanel />}
+        {section === "utilizatori" && <UsersPanel currentUserId={roleQuery.data.userId} />}
       </main>
     </div>
   );
