@@ -2,7 +2,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { CalendarDays, Inbox, ListTodo, LogOut, Menu, Music, Settings, ShieldAlert, Tag, Users } from "lucide-react";
+import { CalendarDays, LayoutDashboard, Inbox, ListTodo, LogOut, Menu, Music, Settings, ShieldAlert, Tag, Users } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { AdminCrud, type AdminField } from "@/components/admin/AdminCrud";
 import { UsersPanel } from "@/components/admin/UsersPanel";
 import { TasksPanel } from "@/components/admin/TasksPanel";
+import { OverviewPanel } from "@/components/admin/OverviewPanel";
 import {
   DAYS,
   FEEDBACK_STATUS_LABELS,
@@ -182,7 +183,7 @@ const REVIEW_FIELDS: AdminField[] = [
 function AdminPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [section, setSection] = useState("inscrieri");
+  const [section, setSection] = useState("panou");
   const [menuOpen, setMenuOpen] = useState(false);
 
   const roleQuery = useQuery({
@@ -234,6 +235,7 @@ function AdminPage() {
   }
 
   const sections = [
+    { id: "panou", label: "Panou principal", icon: LayoutDashboard },
     { id: "inscrieri", label: "Înscrieri", icon: Inbox },
     { id: "orar", label: "Orar", icon: CalendarDays },
     { id: "cursuri", label: "Cursuri", icon: Music },
@@ -315,6 +317,7 @@ function AdminPage() {
       </aside>
 
       <main className="min-w-0 flex-1 p-4 md:p-8">
+        {section === "panou" && <OverviewPanel onNavigate={setSection} />}
         {section === "inscrieri" && <RegistrationsPanel />}
         {section === "orar" && (
           <AdminCrud
