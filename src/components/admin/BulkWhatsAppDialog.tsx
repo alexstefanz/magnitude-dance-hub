@@ -33,7 +33,7 @@ export function BulkWhatsAppDialog({ ids, defaultCourse, onDone }: { ids: string
   const input = "h-10 w-full rounded-lg border border-input bg-background px-3 text-sm";
 
   async function submit() {
-    if (!course || !date || !time) return toast.error("Completează cursul, data și ora.");
+    if (!course || !date || !time) { toast.error("Completează cursul, data și ora."); return; }
     setBusy(true);
     try {
       const r = await send({ data: { template, course, date: fmtDate, time, registrationIds: ids } });
