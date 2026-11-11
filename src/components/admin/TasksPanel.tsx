@@ -31,6 +31,7 @@ type Task = {
   category: string;
   status: string;
   due_date: string | null;
+  start_date: string | null;
   assignee: string | null;
 };
 
@@ -41,7 +42,7 @@ const toKey = (d: Date) =>
 export function TasksPanel() {
   const qc = useQueryClient();
   const [filter, setFilter] = useState("toate");
-  const [form, setForm] = useState({ title: "", notes: "", category: "website", due_date: "", assignee: "" });
+  const [form, setForm] = useState({ title: "", notes: "", category: "website", due_date: "", start_date: "", assignee: "" });
   const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
@@ -62,13 +63,14 @@ export function TasksPanel() {
         notes: form.notes.trim() || null,
         category: form.category,
         due_date: form.due_date || null,
+        start_date: form.start_date || null,
         assignee: form.assignee.trim() || null,
       });
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
       toast.success("Sarcină adăugată.");
-      setForm({ ...form, title: "", notes: "", due_date: "", assignee: "" });
+      setForm({ ...form, title: "", notes: "", due_date: "", start_date: "", assignee: "" });
       refresh();
     },
     onError: (e: Error) => toast.error(e.message),
@@ -128,7 +130,12 @@ export function TasksPanel() {
             <select className={selectCls} value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
               {TASK_CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c.label}</option>)}
             </select>
-            <Input type="date" value={form.due_date} onChange={(e) => setForm({ ...form, due_date: e.target.value })} />
+            <label className="grid gap-1 text-xs text-muted-foreground">Deadline sarcină
+              <Input type="date" value={form.due_date} onChange={(e) => setForm({ ...form, due_date: e.target.value })} />
+            </label>
+            <label className="grid gap-1 text-xs text-muted-foreground">START eveniment
+              <Input type="date" value={form.start_date} onChange={(e) => setForm({ ...form, start_date: e.target.value })} />
+            </label>
             <Input placeholder="Responsabil (ex: Ștefan)" value={form.assignee} maxLength={100}
               onChange={(e) => setForm({ ...form, assignee: e.target.value })} />
             <Textarea className="md:col-span-2" rows={2} placeholder="Notițe (opțional)" value={form.notes} maxLength={2000}
@@ -173,7 +180,8 @@ export function TasksPanel() {
                           {t.notes && <p className="whitespace-pre-line text-xs text-muted-foreground">{t.notes}</p>}
                           <div className="flex flex-wrap gap-1 text-xs">
                             <Badge>{catLabel(t.category)}</Badge>
-                            {t.due_date && <Badge variant={overdue ? "destructive" : "outline"}>{t.due_date}</Badge>}
+                            {t.due_date && <Badge variant={overdue ? "destructive" : "outline"}>Deadline: {t.due_date}</Badge>}
+                            {t.start_date && <Badge variant="secondary">Start: {t.start_date}</Badge>}
                             {t.assignee && <Badge variant="outline">{t.assignee}</Badge>}
                           </div>
                           <select className={`${selectCls} h-8 w-full`} value={t.status}
