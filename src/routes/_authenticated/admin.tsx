@@ -5,7 +5,6 @@ import { CalendarDays, Inbox, ListTodo, LogOut, Music, Settings, ShieldAlert, Ta
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AdminCrud, type AdminField } from "@/components/admin/AdminCrud";
