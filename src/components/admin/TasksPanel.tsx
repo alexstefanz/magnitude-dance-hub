@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { ChevronLeft, ChevronRight, Plus, Trash2 } from "lucide-react";
+import { Archive, ChevronLeft, ChevronRight, Plus, RotateCcw, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -33,7 +33,12 @@ type Task = {
   due_date: string | null;
   start_date: string | null;
   assignee: string | null;
+  completed_at: string | null;
 };
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+export const isArchived = (t: { status: string; completed_at: string | null }, now = Date.now()) =>
+  t.status === "finalizat" && !!t.completed_at && now - new Date(t.completed_at).getTime() >= DAY_MS;
 
 const selectCls = "h-9 rounded-md border border-input bg-background px-2 text-sm";
 const toKey = (d: Date) =>
@@ -42,6 +47,8 @@ const toKey = (d: Date) =>
 export function TasksPanel() {
   const qc = useQueryClient();
   const [filter, setFilter] = useState("toate");
+  const [view, setView] = useState<"active" | "arhiva">("active");
+  const [search, setSearch] = useState("");
   const [form, setForm] = useState({ title: "", notes: "", category: "website", due_date: "", start_date: "", assignee: "" });
   const [month, setMonth] = useState(() => new Date(new Date().getFullYear(), new Date().getMonth(), 1));
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
@@ -77,7 +84,11 @@ export function TasksPanel() {
   });
   const update = useMutation({
     mutationFn: async ({ id, patch }: { id: string; patch: Partial<Task> }) => {
-      const { error } = await supabase.from("admin_tasks").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", id);
+      const { error } = await supabase.from("admin_tasks").update({
+        ...patch,
+        ...(patch.status ? { completed_at: patch.status === "finalizat" ? new Date().toISOString() : null } : {}),
+        updated_at: new Date().toISOString(),
+      }).eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: refresh,
@@ -92,7 +103,12 @@ export function TasksPanel() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const tasks = query.data ?? [];
+  const all = query.data ?? [];
+  const tasks = all.filter((t) => !isArchived(t));
+  const archived = all
+    .filter((t) => isArchived(t))
+    .filter((t) => (filter === "toate" || t.category === filter) && t.title.toLowerCase().includes(search.toLowerCase()))
+    .sort((a, b) => (b.completed_at ?? "").localeCompare(a.completed_at ?? ""));
   const visible = tasks.filter(
     (t) => (filter === "toate" || t.category === filter) && (!selectedDay || t.due_date === selectedDay),
   );
@@ -118,6 +134,55 @@ export function TasksPanel() {
         <h2 className="text-2xl">Organizare</h2>
         <p className="text-sm text-muted-foreground">Sarcinile echipei pentru grafică, website, social media, cursuri, petreceri și evenimente.</p>
       </div>
+
+      <div className="flex gap-2">
+        <Button variant={view === "active" ? "default" : "outline"} onClick={() => setView("active")}>
+          Sarcini active <Badge variant="secondary" className="ml-1">{tasks.length}</Badge>
+        </Button>
+        <Button variant={view === "arhiva" ? "default" : "outline"} onClick={() => setView("arhiva")}>
+          <Archive aria-hidden="true" /> Arhivă <Badge variant="secondary" className="ml-1">{all.filter((t) => isArchived(t)).length}</Badge>
+        </Button>
+      </div>
+
+      {view === "arhiva" ? (
+        <div className="space-y-4">
+          <p className="text-sm text-muted-foreground">Sarcinile finalizate ajung aici automat la 24 de ore după finalizare.</p>
+          <div className="flex flex-wrap gap-2">
+            <Input className="max-w-xs" placeholder="Caută după titlu..." value={search} onChange={(e) => setSearch(e.target.value)} />
+            {[{ value: "toate", label: "Toate" }, ...TASK_CATEGORIES].map((c) => (
+              <Button key={c.value} size="sm" variant={filter === c.value ? "default" : "outline"} onClick={() => setFilter(c.value)}>
+                {c.label}
+              </Button>
+            ))}
+          </div>
+          <div className="space-y-2">
+            {archived.length === 0 && <p className="text-sm text-muted-foreground">Nicio sarcină în arhivă.</p>}
+            {archived.map((t) => (
+              <div key={t.id} className="flex flex-col gap-2 rounded-xl border border-border bg-card p-3 md:flex-row md:items-start md:justify-between">
+                <div className="space-y-1">
+                  <p className="font-medium">{t.title}</p>
+                  {t.notes && <p className="whitespace-pre-line text-xs text-muted-foreground">{t.notes}</p>}
+                  <div className="flex flex-wrap gap-1 text-xs">
+                    <Badge>{catLabel(t.category)}</Badge>
+                    {t.completed_at && <Badge variant="secondary">Finalizat: {new Date(t.completed_at).toLocaleDateString("ro-RO")}</Badge>}
+                    {t.due_date && <Badge variant="outline">Deadline: {t.due_date}</Badge>}
+                    {t.start_date && <Badge variant="outline">Start: {t.start_date}</Badge>}
+                    {t.assignee && <Badge variant="outline">{t.assignee}</Badge>}
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="outline" onClick={() => update.mutate({ id: t.id, patch: { status: "in_lucru" } })}>
+                    <RotateCcw aria-hidden="true" /> Restaurează
+                  </Button>
+                  <Button size="sm" variant="ghost" aria-label="Șterge definitiv" onClick={() => confirm("Ștergi definitiv sarcina?") && remove.mutate(t.id)}>
+                    <Trash2 className="size-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
 
       <div className="grid gap-6 xl:grid-cols-[1fr_340px]">
         <div className="space-y-6">
@@ -231,6 +296,7 @@ export function TasksPanel() {
           <p className="mt-3 text-xs text-muted-foreground">Apasă pe o zi pentru a vedea sarcinile cu termen în acea zi.</p>
         </div>
       </div>
+      )}
     </div>
   );
 }
