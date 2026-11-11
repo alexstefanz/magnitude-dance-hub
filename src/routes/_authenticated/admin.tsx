@@ -1,3 +1,4 @@
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
@@ -251,11 +252,43 @@ function AdminPage() {
             </p>
             <p className="text-sm text-muted-foreground">Panou de administrare</p>
           </div>
-          <Button variant="outline" size="sm" className="md:hidden" onClick={signOut}>
-            <LogOut aria-hidden="true" />
-          </Button>
+          <div className="flex gap-2 md:hidden">
+            <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" aria-label="Deschide meniul">
+                  <Menu aria-hidden="true" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-72 p-4">
+                <SheetHeader className="mb-4 text-left">
+                  <SheetTitle>Meniu administrare</SheetTitle>
+                </SheetHeader>
+                <nav className="flex flex-col gap-1">
+          {sections.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => { setSection(item.id); setMenuOpen(false); }}
+              className={`flex shrink-0 items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                section === item.id
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+              }`}
+            >
+              <item.icon className="size-4" aria-hidden="true" />
+              {item.label}
+            </button>
+          ))}
+                </nav>
+                <Button variant="outline" className="mt-6 w-full" onClick={signOut}>
+                  <LogOut aria-hidden="true" />
+                  Deconectare
+                </Button>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
-        <nav className="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-1 md:flex-col md:overflow-visible md:pb-0">
+        <nav className="hidden md:flex md:flex-1 md:flex-col md:gap-1 md:px-3">
           {sections.map((item) => (
             <button
               key={item.id}
