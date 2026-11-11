@@ -26,6 +26,13 @@ type Style = {
   reel_url: string | null;
 };
 
+const LOCAL_H1: Record<string, string> = {
+  "dansul-mirilor": "Dansul Mirilor în Iași",
+  "rueda-de-casino": "Rueda de Casino în Iași",
+  "dans-modern-copii": "Dans Modern Copii în Iași",
+  "lady-styling": "Lady Styling în Iași",
+};
+
 export function DanceStylePage({ slug }: { slug: string }) {
   const { data: styles } = useQuery(danceStylesQuery);
   const { data: schedule } = useQuery(scheduleQuery);
@@ -46,7 +53,7 @@ export function DanceStylePage({ slug }: { slug: string }) {
     <SiteLayout>
       <PageHero
         eyebrow="Curs de dans"
-        title={content?.heading ?? title}
+        title={content?.heading ?? LOCAL_H1[slug] ?? title}
         description={content?.intro ?? style?.short_description ?? "[Descriere curs – de completat]"}
       >
         <WhatsAppButton
