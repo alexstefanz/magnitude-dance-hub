@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { KeyRound, Loader2, ShieldCheck, ShieldOff, Trash2, UserPlus } from "lucide-react";
+import { KeyRound, Loader2, ShieldCheck, ShieldOff, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,6 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   deleteAdminUser,
-  inviteAdminUser,
   listAdminUsers,
   setAdminAccess,
   type AdminUser,
@@ -20,10 +19,8 @@ import {
 export function UsersPanel({ currentUserId }: { currentUserId: string }) {
   const queryClient = useQueryClient();
   const fetchUsers = useServerFn(listAdminUsers);
-  const invite = useServerFn(inviteAdminUser);
   const setAccess = useServerFn(setAdminAccess);
   const removeUser = useServerFn(deleteAdminUser);
-  const [email, setEmail] = useState("");
 
   const usersQuery = useQuery({
     queryKey: ["admin", "users"],
@@ -33,17 +30,6 @@ export function UsersPanel({ currentUserId }: { currentUserId: string }) {
   async function refresh() {
     await queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
   }
-
-  const inviteMutation = useMutation({
-    mutationFn: async (value: string) =>
-      invite({ data: { email: value, redirectTo: `${window.location.origin}/reset-password` } }),
-    onSuccess: async () => {
-      toast.success("Invitația a fost trimisă pe email.");
-      setEmail("");
-      await refresh();
-    },
-    onError: (error: Error) => toast.error(error.message),
-  });
 
   const accessMutation = useMutation({
     mutationFn: async (input: { userId: string; isAdmin: boolean }) =>
@@ -69,41 +55,6 @@ export function UsersPanel({ currentUserId }: { currentUserId: string }) {
 
   return (
     <div className="space-y-8">
-      <section className="space-y-4 rounded-xl border border-border bg-card p-5">
-        <h2 className="font-display text-xl font-bold">Invită un administrator</h2>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            inviteMutation.mutate(email);
-          }}
-          className="flex flex-wrap items-end gap-3"
-        >
-          <div className="min-w-64 flex-1 space-y-2">
-            <Label htmlFor="invite-email">Adresă de email</Label>
-            <Input
-              id="invite-email"
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="nume@exemplu.ro"
-              required
-            />
-          </div>
-          <Button type="submit" disabled={inviteMutation.isPending}>
-            {inviteMutation.isPending ? (
-              <Loader2 className="animate-spin" aria-hidden="true" />
-            ) : (
-              <UserPlus aria-hidden="true" />
-            )}
-            Trimite invitația
-          </Button>
-        </form>
-        <p className="text-sm text-muted-foreground">
-          Persoana invitată primește un email, își setează parola și obține automat drepturi de
-          administrare.
-        </p>
-      </section>
-
       <section className="space-y-4">
         <h2 className="font-display text-xl font-bold">Utilizatori ({users.length})</h2>
         {usersQuery.isLoading && <Skeleton className="h-40 w-full rounded-xl" />}
