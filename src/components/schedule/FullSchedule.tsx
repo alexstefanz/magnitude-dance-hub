@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { SlidersHorizontal } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { ScheduleCard, type ScheduleEntry } from "@/components/schedule/ScheduleCard";
 import { DAYS, currentDayOfWeek, scheduleQuery } from "@/lib/content";
@@ -23,6 +24,9 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
   const [instructor, setInstructor] = useState(ALL);
   const [level, setLevel] = useState(ALL);
   const [room, setRoom] = useState(ALL);
+  const [showFilters, setShowFilters] = useState(false);
+  const today = currentDayOfWeek();
+  const activeFilters = [style, instructor, level, room].filter((v) => v !== ALL).length;
 
   const base = useMemo(
     () =>
@@ -59,7 +63,7 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
       <div
         role="tablist"
         aria-label="Zilele săptămânii"
-        className="-mx-1 flex snap-x gap-2 overflow-x-auto px-1 pb-2"
+        className="grid grid-cols-7 gap-1 sm:flex sm:flex-wrap sm:gap-2"
       >
         {DAYS.map((label, index) => {
           const value = index + 1;
@@ -71,19 +75,33 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
               aria-selected={active}
               onClick={() => setDay(value)}
               className={cn(
-                "shrink-0 snap-start rounded-xl px-4 py-2 text-sm font-semibold transition-colors",
+                "relative min-w-0 rounded-xl px-1 py-2 text-xs font-semibold transition-colors sm:px-4 sm:text-sm",
                 active
                   ? "bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-glow)]"
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/70",
               )}
             >
-              {label}
+              <span className="sm:hidden">{label.slice(0, 2)}</span>
+              <span className="hidden sm:inline">{label}</span>
+              {value === today && (
+                <span className={cn("absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full", active ? "bg-primary-foreground" : "bg-primary")} aria-label="Azi" />
+              )}
             </button>
           );
         })}
       </div>
 
-      <div className="mt-6 grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2 lg:grid-cols-4">
+      <button
+        type="button"
+        onClick={() => setShowFilters((v) => !v)}
+        aria-expanded={showFilters}
+        className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold sm:hidden"
+      >
+        <SlidersHorizontal className="h-4 w-4" />
+        Filtrează{activeFilters > 0 ? ` (${activeFilters})` : ""}
+      </button>
+
+      <div className={cn("mt-4 gap-3 rounded-2xl border border-border bg-card p-4 sm:mt-6 sm:grid sm:grid-cols-2 lg:grid-cols-4", showFilters ? "grid" : "hidden")}>
         <FilterSelect
           id="filter-style"
           label="Stil"
