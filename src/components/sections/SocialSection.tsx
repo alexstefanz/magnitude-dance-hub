@@ -1,15 +1,28 @@
-import { Facebook, Instagram, MapPin, Music2 } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { Instagram } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useSettings } from "@/hooks/use-settings";
 
+const FEED_SRC = "https://cdn.trustindex.io/loader-feed.js?66173d2857115114530616f72de";
+
 export function SocialSection() {
   const { get } = useSettings();
-  const links = [
-    { label: "Instagram", url: get("instagram_url"), icon: Instagram },
-    { label: "TikTok", url: get("tiktok_url"), icon: Music2 },
-    { label: "Facebook", url: get("facebook_url"), icon: Facebook },
-    { label: "Google Business", url: get("google_maps_url"), icon: MapPin },
-  ];
+  const url = get("instagram_url");
+  const feedRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = feedRef.current;
+    if (!el) return;
+    el.innerHTML = "";
+    const s = document.createElement("script");
+    s.src = FEED_SRC;
+    s.defer = true;
+    s.async = true;
+    el.appendChild(s);
+    return () => {
+      el.innerHTML = "";
+    };
+  }, []);
 
   return (
     <section className="section-y bg-background" aria-labelledby="social-heading">
@@ -19,38 +32,21 @@ export function SocialSection() {
           Urmărește Magnitude
         </h2>
         <p className="mt-3 mx-auto max-w-2xl text-center text-muted-foreground">
-          Reels de la cursuri, petreceri și evenimente. Cele mai noi clipuri apar mereu pe rețelele
-          noastre.
+          Reels de la cursuri, petreceri și evenimente. Cele mai noi clipuri apar mereu pe Instagram.
         </p>
 
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
-          {links.map(({ label, url, icon: Icon }) =>
-            url ? (
-              <Button key={label} asChild variant="outline">
-                <a href={url} target="_blank" rel="noopener noreferrer">
-                  <Icon aria-hidden="true" />
-                  {label}
-                </a>
-              </Button>
-            ) : (
-              <Button key={label} variant="outline" disabled>
-                <Icon aria-hidden="true" />
-                {label} – link în curând
-              </Button>
-            ),
-          )}
-        </div>
+        {url && (
+          <div className="mt-6 flex justify-center">
+            <Button asChild variant="outline" className="w-full sm:w-auto">
+              <a href={url} target="_blank" rel="noopener noreferrer">
+                <Instagram aria-hidden="true" />
+                Instagram
+              </a>
+            </Button>
+          </div>
+        )}
 
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => (
-            <div
-              key={i}
-              className="flex aspect-square items-center justify-center rounded-2xl border border-dashed border-border bg-muted/40 p-4 text-center text-xs text-muted-foreground"
-            >
-              [Reel – va fi adăugat ulterior]
-            </div>
-          ))}
-        </div>
+        <div ref={feedRef} className="mt-8" />
       </div>
     </section>
   );
