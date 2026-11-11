@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { CalendarDays, Clock, GraduationCap, Users, Wallet, ArrowLeft } from "lucide-react";
+import { CalendarDays, Clock, GraduationCap, Users, Wallet, ArrowLeft, MapPin, Check } from "lucide-react";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -53,6 +53,7 @@ function CoursePage() {
     { icon: Wallet, label: "Cost", value: c.price },
     { icon: GraduationCap, label: "Nivel", value: c.level },
     { icon: Users, label: "Instructori", value: c.instructors },
+    ...(c.location ? [{ icon: MapPin, label: "Locație", value: c.location }] : []),
   ];
   return (
     <SiteLayout>
@@ -78,6 +79,27 @@ function CoursePage() {
                   </li>
                 ))}
               </ul>
+              {c.format && (
+                <ul className="space-y-2 text-left">
+                  {c.format.map((f) => (
+                    <li key={f} className="flex items-center gap-2"><Check className="size-4 text-primary" aria-hidden="true" />{f}</li>
+                  ))}
+                </ul>
+              )}
+              {c.offers && (
+                <div className="rounded-2xl border-2 border-primary bg-card p-5 text-left">
+                  <p className="font-display text-lg font-bold text-primary">{c.offerTitle}</p>
+                  <ul className="mt-3 space-y-3">
+                    {c.offers.map((o) => (
+                      <li key={o.price}>
+                        <span className="mr-2 text-muted-foreground line-through">{o.old}</span>
+                        <strong className="text-xl">{o.price}</strong>
+                        {o.note && <span className="block text-sm text-muted-foreground">{o.note}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg"><a href="#formular">Înscrie-te acum</a></Button>
                 <WhatsAppButton variant="whatsapp" message={`Bună! Aș dori detalii despre cursul de ${c.name} ${c.level} care începe pe ${c.start}.`} />
@@ -86,6 +108,19 @@ function CoursePage() {
           </div>
         </div>
       </section>
+      {c.sections && (
+        <section className="section-y bg-background pt-0">
+          <div className="container-page grid gap-6 md:grid-cols-3">
+            {c.sections.map((x) => (
+              <div key={x.title} className="rounded-2xl border border-border bg-card p-6 text-center md:text-left">
+                <h2 className="mb-3 text-xl">{x.title}</h2>
+                <p className="text-muted-foreground">{x.text}</p>
+              </div>
+            ))}
+          </div>
+          {c.closing && <p className="container-page mt-8 text-center font-display text-lg font-bold">{c.closing}</p>}
+        </section>
+      )}
       <section id="formular" className="section-y scroll-mt-28 bg-secondary/40">
         <div className="container-page max-w-3xl">
           <h2 className="mb-6 text-center text-3xl md:text-4xl">Formular de înscriere – {c.name}</h2>
