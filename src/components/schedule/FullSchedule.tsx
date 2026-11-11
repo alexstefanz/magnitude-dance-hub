@@ -21,12 +21,10 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
   const entries = (data ?? []) as ScheduleEntry[];
   const [day, setDay] = useState<number>(currentDayOfWeek());
   const [style, setStyle] = useState(ALL);
-  const [instructor, setInstructor] = useState(ALL);
   const [level, setLevel] = useState(ALL);
-  const [room, setRoom] = useState(ALL);
   const [showFilters, setShowFilters] = useState(false);
   const today = currentDayOfWeek();
-  const activeFilters = [style, instructor, level, room].filter((v) => v !== ALL).length;
+  const activeFilters = [style, level].filter((v) => v !== ALL).length;
 
   const base = useMemo(
     () =>
@@ -43,9 +41,7 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
       Array.from(new Set(values.filter((v): v is string => Boolean(v)))).sort();
     return {
       styles: uniq(base.map((e) => e.style_label)),
-      instructors: uniq(base.map((e) => e.instructor_names)),
       levels: uniq(base.map((e) => e.level)),
-      rooms: uniq(base.map((e) => e.room)),
     };
   }, [base]);
 
@@ -53,9 +49,7 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
     (e) =>
       e.day_of_week === day &&
       (style === ALL || e.style_label === style) &&
-      (instructor === ALL || e.instructor_names === instructor) &&
-      (level === ALL || e.level === level) &&
-      (room === ALL || e.room === room),
+      (level === ALL || e.level === level),
   );
 
   return (
@@ -101,7 +95,7 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
         Filtrează{activeFilters > 0 ? ` (${activeFilters})` : ""}
       </button>
 
-      <div className={cn("mt-4 gap-3 rounded-2xl border border-border bg-card p-4 sm:mt-6 sm:grid sm:grid-cols-2 lg:grid-cols-4", showFilters ? "grid" : "hidden")}>
+      <div className={cn("mt-4 gap-3 rounded-2xl border border-border bg-card p-4 sm:mt-6 sm:grid sm:grid-cols-2", showFilters ? "grid" : "hidden")}>
         <FilterSelect
           id="filter-style"
           label="Stil"
@@ -110,25 +104,11 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
           options={options.styles}
         />
         <FilterSelect
-          id="filter-instructor"
-          label="Instructor"
-          value={instructor}
-          onChange={setInstructor}
-          options={options.instructors}
-        />
-        <FilterSelect
           id="filter-level"
           label="Nivel"
           value={level}
           onChange={setLevel}
           options={options.levels}
-        />
-        <FilterSelect
-          id="filter-room"
-          label="Sală"
-          value={room}
-          onChange={setRoom}
-          options={options.rooms}
         />
       </div>
 
