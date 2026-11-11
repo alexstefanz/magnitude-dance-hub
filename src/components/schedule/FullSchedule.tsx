@@ -101,7 +101,7 @@ export function FullSchedule({ styleFilter }: { styleFilter?: string }) {
         Filtrează{activeFilters > 0 ? ` (${activeFilters})` : ""}
       </button>
 
-      <div className={cn("mt-4 gap-3 rounded-2xl sm:mt-6 sm:grid", showFilters ? "grid" : "hidden")} data-x=" border border-border bg-card p-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className={cn("mt-4 gap-3 rounded-2xl border border-border bg-card p-4 sm:mt-6 sm:grid sm:grid-cols-2 lg:grid-cols-4", showFilters ? "grid" : "hidden")}>
         <FilterSelect
           id="filter-style"
           label="Stil"
