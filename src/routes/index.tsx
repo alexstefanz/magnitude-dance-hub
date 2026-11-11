@@ -58,12 +58,12 @@ function HomePage() {
   return (
     <SiteLayout>
       <HeroSection />
+      <UpcomingEventsSection />
       <DanceStylesSection />
       <WhyMagnitude />
       <InstructorsIntroSection />
       <PricingSection />
       <ReviewSlider />
-      <UpcomingEventsSection />
       <SocialSection />
     </SiteLayout>
   );
