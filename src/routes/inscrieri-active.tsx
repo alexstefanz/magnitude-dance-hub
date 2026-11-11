@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalendarDays, Clock, GraduationCap, Users } from "lucide-react";
 import { SiteLayout, PageHero } from "@/components/layout/SiteLayout";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,7 @@ export const Route = createFileRoute("/inscrieri-active")({
 const COURSES = [
   {
     id: "Kizomba",
+    slug: "kizomba-incepatori",
     name: "Kizomba",
     image: kizombaPoster.url,
     level: "Începător",
@@ -38,6 +39,7 @@ const COURSES = [
   },
   {
     id: "Salsa",
+    slug: "salsa-bachata-incepatori",
     name: "Salsa & Bachata",
     image: salsaBachataPoster.url,
     level: "Începător",
@@ -85,9 +87,14 @@ function ActiveEnrollmentPage() {
                     <li className="flex items-center gap-2"><GraduationCap className="size-4 text-primary" /> Nivel: {c.level}</li>
                     <li className="flex items-center gap-2"><Users className="size-4 text-primary" /> Instructori: {c.instructors}</li>
                   </ul>
-                  <Button className="mt-auto w-full" onClick={() => choose(c.id)}>
-                    Înscrie-te la curs
-                  </Button>
+                  <div className="mt-auto flex flex-col gap-2">
+                    <Button asChild variant="outline" className="w-full">
+                      <Link to="/inscrieri/$slug" params={{ slug: c.slug }}>Vezi detalii curs</Link>
+                    </Button>
+                    <Button className="w-full" onClick={() => choose(c.id)}>
+                      Înscrie-te la curs
+                    </Button>
+                  </div>
                 </div>
               </article>
             ))}
