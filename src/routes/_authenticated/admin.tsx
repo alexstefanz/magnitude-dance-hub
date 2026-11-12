@@ -1,6 +1,8 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { danceStylesQuery } from "@/lib/content";
+import { ACTIVE_COURSES } from "@/lib/active-courses";
 import { useState } from "react";
 import { CalendarDays, LayoutDashboard, Inbox, ListTodo, LogOut, Menu, Music, Settings, ShieldAlert, Tag, Users } from "lucide-react";
 import { toast } from "sonner";
