@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Clock, Sparkles } from "lucide-react";
+import { ArrowRight, Clock, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { useSettings } from "@/hooks/use-settings";
@@ -64,9 +64,9 @@ export function HeroSection() {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
             <WhatsAppButton variant="whatsapp" className="w-full sm:w-auto" />
-            <Button asChild size="lg" variant="outlineLight" className="w-full sm:w-auto">
+            <Button asChild size="lg" variant="gold" className="w-full sm:w-auto">
               <Link to="/inscrieri-active">
-                <Sparkles aria-hidden="true" />
+                <Users aria-hidden="true" />
                 Înscrieri active
               </Link>
             </Button>
