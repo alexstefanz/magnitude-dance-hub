@@ -64,9 +64,9 @@ export function HeroSection() {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center lg:justify-start">
             <WhatsAppButton variant="whatsapp" className="w-full sm:w-auto" />
-            <Button asChild size="lg" variant="outlineLight" className="w-full sm:w-auto">
+            <Button asChild size="lg" variant="gold" className="w-full sm:w-auto">
               <Link to="/inscrieri-active">
-                <Sparkles aria-hidden="true" />
+                <Users aria-hidden="true" />
                 Înscrieri active
               </Link>
             </Button>
