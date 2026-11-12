@@ -398,13 +398,25 @@ function RegistrationsPanel() {
     onError: (error: Error) => toast.error(error.message),
   });
 
+  const stylesQ = useQuery(danceStylesQuery);
   const [courseFilter, setCourseFilter] = useState("");
   const [selected, setSelected] = useState<Set<string>>(new Set());
 
   if (query.isLoading) return <Skeleton className="h-64 w-full rounded-2xl" />;
   const all = query.data ?? [];
-  const courses = Array.from(new Set(all.map((r) => r.selected_course).filter(Boolean))) as string[];
-  const rows = courseFilter ? all.filter((r) => r.selected_course === courseFilter) : all;
+  const courses = Array.from(
+    new Set([
+      ...ACTIVE_COURSES.map((c) => c.formCourse),
+      ...((stylesQ.data ?? []) as { name: string }[]).map((s) => s.name),
+      ...(all.map((r) => r.selected_course).filter(Boolean) as string[]),
+    ]),
+  );
+  const countFor = (c: string) => all.filter((r) => (c === "__none__" ? !r.selected_course : r.selected_course === c)).length;
+  const rows = !courseFilter
+    ? all
+    : courseFilter === "__none__"
+      ? all.filter((r) => !r.selected_course)
+      : all.filter((r) => r.selected_course === courseFilter);
   const visibleSelected = rows.filter((r) => selected.has(r.id)).map((r) => r.id);
   const allChecked = rows.length > 0 && visibleSelected.length === rows.length;
   const toggle = (id: string) =>
@@ -422,7 +434,8 @@ function RegistrationsPanel() {
             className="h-10 rounded-lg border border-input bg-background px-3 text-sm"
           >
             <option value="">Toate cursurile</option>
-            {courses.map((c) => <option key={c} value={c}>{c}</option>)}
+            {courses.map((c) => <option key={c} value={c}>{c} ({countFor(c)})</option>)}
+            <option value="__none__">Fără curs specificat ({countFor("__none__")})</option>
           </select>
           <label className="flex items-center gap-2 text-sm">
             <input
@@ -432,7 +445,7 @@ function RegistrationsPanel() {
             />
             Selectează tot
           </label>
-          <BulkWhatsAppDialog ids={visibleSelected} defaultCourse={courseFilter} onDone={() => setSelected(new Set())} />
+          <BulkWhatsAppDialog ids={visibleSelected} defaultCourse={courseFilter === "__none__" ? "" : courseFilter} onDone={() => setSelected(new Set())} />
         </div>
       </div>
       <ul className="space-y-3">
@@ -460,11 +473,9 @@ function RegistrationsPanel() {
                     {row.email}
                   </a>
                 </p>
-                {row.selected_course && (
-                  <Badge variant="secondary" className="mt-2">
-                    {row.selected_course}
-                  </Badge>
-                )}
+                <Badge variant={row.selected_course ? "secondary" : "outline"} className="mt-2">
+                  {row.selected_course || "Curs nespecificat"}
+                </Badge>
                 {row.message && <p className="mt-2 text-sm text-muted-foreground">{row.message}</p>}
               </div>
               </div>
