@@ -1,3 +1,4 @@
+import { normalizePhoneRO } from "./phone";
 const GATEWAY_URL = "https://connector-gateway.lovable.dev/whatsapp";
 const TEMPLATE = "notificare_inscriere_curs";
 const RANK: Record<string, number> = { accepted: 0, sent: 1, delivered: 2, read: 3, failed: 4 };
@@ -19,8 +20,8 @@ export async function notifyInstructorWhatsApp(
   const waKey = process.env["WHATSAPP_API_KEY"];
   const recipients = (process.env["WHATSAPP_NOTIFY_TO"] || "")
     .split(",")
-    .map((n) => n.replace(/\D/g, ""))
-    .filter(Boolean);
+    .map((n) => normalizePhoneRO(n))
+    .filter((n): n is string => Boolean(n));
   if (!lovableKey || !waKey || recipients.length === 0) {
     console.error("WhatsApp notify not configured");
     return;
