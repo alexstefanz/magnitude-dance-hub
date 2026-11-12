@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { registrationSchema, submitRegistration } from "@/lib/forms.functions";
 import { danceStylesQuery } from "@/lib/content";
+import { ACTIVE_COURSES } from "@/lib/active-courses";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 const WHO_OPTIONS = ["Cursant nou", "Cursant Magnitude", "Vin cu partener", "Vin singur/ă", "Altul"];
@@ -134,9 +135,15 @@ export function RegistrationForm({
             defaultValue={defaultCourse ?? ""}
           >
             <option value="">Alege cursul</option>
-            {((styles ?? []) as { id: string; name: string }[]).map((style) => (
-              <option key={style.id} value={style.name}>
-                {style.name}
+            {Array.from(
+              new Set([
+                ...ACTIVE_COURSES.map((c) => c.formCourse),
+                ...((styles ?? []) as { name: string }[]).map((s) => s.name),
+                ...(defaultCourse ? [defaultCourse] : []),
+              ]),
+            ).map((name) => (
+              <option key={name} value={name}>
+                {name}
               </option>
             ))}
           </select>

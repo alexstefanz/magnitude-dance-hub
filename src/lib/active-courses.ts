@@ -46,7 +46,7 @@ export const ACTIVE_COURSES: ActiveCourse[] = [
   },
   {
     slug: "salsa-bachata-incepatori",
-    formCourse: "Salsa",
+    formCourse: "Salsa & Bachata",
     name: "Salsa & Bachata",
     level: "Începător",
     image: salsaBachataPoster.url,
