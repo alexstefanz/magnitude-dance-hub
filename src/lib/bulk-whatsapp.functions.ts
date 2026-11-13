@@ -17,9 +17,7 @@ export const sendBulkWhatsApp = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: isAdmin } = await context.supabase.rpc("is_admin");
     if (!isAdmin) throw new Error("Acces interzis.");
-    const lovableKey = process.env["LOVABLE_API_KEY"];
-    const waKey = process.env["WHATSAPP_API_KEY"];
-    if (!lovableKey || !waKey) throw new Error("WhatsApp nu este configurat.");
+    if (!process.env["WHATSAPP_ACCESS_TOKEN"]) throw new Error("WhatsApp nu este configurat.");
 
     const { data: regs, error } = await context.supabase
       .from("registrations").select("id,first_name,phone").in("id", data.registrationIds);
@@ -27,32 +25,19 @@ export const sendBulkWhatsApp = createServerFn({ method: "POST" })
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { reconcilePending } = await import("./whatsapp.server");
+    const { sendWhatsApp } = await import("./whatsapp-send.server");
     let sent = 0;
     const failed: { name: string; reason: string }[] = [];
 
     for (const r of regs ?? []) {
       const to = normalizePhoneRO(r.phone);
       if (!to) { failed.push({ name: r.first_name, reason: "număr invalid" }); continue; }
-      const params = [r.first_name, data.course, data.date, data.time].map((t) => ({ type: "text", text: t }));
-      const res = await fetch("https://connector-gateway.lovable.dev/whatsapp/messages", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${lovableKey}`, "X-Connection-Api-Key": waKey, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messaging_product: "whatsapp", to, type: "template",
-          template: { name: data.template, language: { code: "ro" }, components: [{ type: "body", parameters: params }] },
-        }),
-      });
-      const body = await res.text();
-      if (!res.ok) {
-        console.error(`Bulk WhatsApp failed [${res.status}]: ${body}`);
-        await supabaseAdmin.from("whatsapp_notifications").insert({ registration_id: r.id, recipient: to, status: "failed", error: body.slice(0, 2000) });
-        let reason = "eroare trimitere";
-        try { reason = JSON.parse(body)?.error?.message?.slice(0, 160) || reason; } catch { /* keep */ }
-        failed.push({ name: r.first_name, reason });
-        continue;
-      }
-      const id = JSON.parse(body)?.messages?.[0]?.id ?? null;
-      await supabaseAdmin.from("whatsapp_notifications").insert({ registration_id: r.id, recipient: to, provider_message_id: id, status: "accepted" });
+      const [n, c, dt, tm] = [r.first_name, data.course, data.date, data.time];
+      const text = data.template === "confirmare_start_curs"
+        ? `Bună, ${n}! Îți mulțumim pentru înscrierea la cursul de ${c} de la Magnitude Dance. Prima ședință va avea loc pe data de ${dt}, la ora ${tm}, la studioul nostru din Iași. Te așteptăm cu drag! Dacă ai întrebări, ne poți răspunde direct la acest mesaj.`
+        : `Bună, ${n}! Te anunțăm că începerea cursului de ${c} de la Magnitude Dance a fost reprogramată pentru data de ${dt}, la ora ${tm}. Ne cerem scuze pentru inconveniente și te așteptăm cu drag! Pentru orice detalii, ne poți răspunde direct la acest mesaj.`;
+      const res = await sendWhatsApp(supabaseAdmin, { to, template: data.template, params: [n, c, dt, tm], fallbackText: text, registrationId: r.id });
+      if (!res.ok) { failed.push({ name: r.first_name, reason: (res.error ?? "eroare trimitere").slice(0, 160) }); continue; }
       sent++;
     }
     await reconcilePending(supabaseAdmin);
