@@ -1,5 +1,5 @@
 import { normalizePhoneRO } from "./phone";
-const GATEWAY_URL = "https://connector-gateway.lovable.dev/whatsapp";
+import { sendWhatsApp } from "./whatsapp-send.server";
 const TEMPLATE = "notificare_inscriere_curs";
 const RANK: Record<string, number> = { accepted: 0, sent: 1, delivered: 2, read: 3, failed: 4 };
 
@@ -16,51 +16,22 @@ export async function notifyInstructorWhatsApp(
   registrationId: string | null,
   d: { firstName: string; lastName: string; phone: string; email: string; selectedCourse?: string; message?: string },
 ) {
-  const lovableKey = process.env["LOVABLE_API_KEY"];
-  const waKey = process.env["WHATSAPP_API_KEY"];
   const recipients = (process.env["WHATSAPP_NOTIFY_TO"] || "")
     .split(",")
     .map((n) => normalizePhoneRO(n))
     .filter((n): n is string => Boolean(n));
-  if (!lovableKey || !waKey || recipients.length === 0) {
+  if (!process.env["WHATSAPP_ACCESS_TOKEN"] || recipients.length === 0) {
     console.error("WhatsApp notify not configured");
     return;
   }
-  const params = [
-    `${d.firstName} ${d.lastName}`,
-    d.selectedCourse,
-    d.phone,
-    d.email,
-    d.message,
-  ].map((t) => ({ type: "text", text: clean(t) }));
-
+  const p = [`${d.firstName} ${d.lastName}`, d.selectedCourse, d.phone, d.email, d.message].map(clean);
+  const text = `Ai primit o înscriere nouă pe site-ul Magnitude Dance!\n\n👤 Cursant: ${p[0]}\n💃 Curs ales: ${p[1]}\n📱 Telefon: ${p[2]}\n✉️ Email: ${p[3]}\n💬 Mesaj: ${p[4]}\n\nTe rugăm să iei legătura cu cursantul cât mai curând.`;
   for (const to of recipients) {
-    const res = await fetch(`${GATEWAY_URL}/messages`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${lovableKey}`,
-        "X-Connection-Api-Key": waKey,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        messaging_product: "whatsapp",
-        to,
-        type: "template",
-        template: { name: TEMPLATE, language: { code: "ro" }, components: [{ type: "body", parameters: params }] },
-      }),
-    });
-    const body = await res.text();
-    if (!res.ok) {
-      console.error(`WhatsApp send failed [${res.status}]: ${body}`);
-      await admin.from("whatsapp_notifications").insert({
-        registration_id: registrationId, recipient: to, status: "failed", error: body.slice(0, 2000),
-      });
-      continue;
-    }
-    const id = JSON.parse(body)?.messages?.[0]?.id ?? null;
-    await admin.from("whatsapp_notifications").insert({ registration_id: registrationId, recipient: to, provider_message_id: id, status: "accepted" });
-    await reconcilePending(admin);
+    try {
+      await sendWhatsApp(admin, { to, template: TEMPLATE, params: p, fallbackText: text, registrationId });
+    } catch (e) { console.error("WhatsApp notify error", e); }
   }
+  await reconcilePending(admin);
 }
 
 // Applies stored status callbacks to outbound rows. Returns false if a status is still unmatched.
