@@ -35,7 +35,7 @@ export async function sendWhatsApp(
   let error: string | null = null;
   if (!res.ok) {
     const msg = safe(() => JSON.parse(body)?.error?.message) || body;
-    error = code === "131030" ? `Destinatarul nu e în lista de test Meta (131030): ${msg}` : `Meta ${code ?? res.status}: ${msg}`;
+    error = code === "133010" ? `Numărul de trimitere nu e înregistrat în Meta (133010): ${msg}` : code === "131030" ? `Destinatarul nu e în lista de test Meta (131030): ${msg}` : `Meta ${code ?? res.status}: ${msg}`;
     console.error(`WhatsApp send failed [${res.status}] to ${opts.to}: ${body}`);
   }
   const id = res.ok ? safe(() => JSON.parse(body)?.messages?.[0]?.id) ?? null : null;
