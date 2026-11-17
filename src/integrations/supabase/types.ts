@@ -762,32 +762,44 @@ export type Database = {
         Row: {
           created_at: string
           error: string | null
+          error_code: string | null
+          http_status: number | null
           id: string
+          message_type: string | null
           provider_message_id: string | null
           recipient: string
           registration_id: string | null
           status: string
           status_updated_at: string | null
+          template_name: string | null
         }
         Insert: {
           created_at?: string
           error?: string | null
+          error_code?: string | null
+          http_status?: number | null
           id?: string
+          message_type?: string | null
           provider_message_id?: string | null
           recipient: string
           registration_id?: string | null
           status?: string
           status_updated_at?: string | null
+          template_name?: string | null
         }
         Update: {
           created_at?: string
           error?: string | null
+          error_code?: string | null
+          http_status?: number | null
           id?: string
+          message_type?: string | null
           provider_message_id?: string | null
           recipient?: string
           registration_id?: string | null
           status?: string
           status_updated_at?: string | null
+          template_name?: string | null
         }
         Relationships: []
       }
