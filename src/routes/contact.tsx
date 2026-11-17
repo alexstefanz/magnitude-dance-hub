@@ -1,3 +1,4 @@
+import { seoHead } from "@/config/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { PageHero, SiteLayout } from "@/components/layout/SiteLayout";
@@ -6,22 +7,10 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { useSettings } from "@/hooks/use-settings";
 import { telLink } from "@/lib/whatsapp";
 
-// SEO title/description kept identical to the previous magnitudedance.ro page.
-const title = "Magnitude Dance | Contact Magnitude Dance Iași – Înscrieri & Studio";
-const description =
-  "Ia legătura cu Magnitude Dance Iași – înscrieri cursuri de dans, programări private, adresa studioului (Aleea Vasile Petrescu 5), telefon și email.";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/contact" },
-    ],
-    links: [{ rel: "canonical", href: "/contact" }],
+    ...seoHead("/contact/"),
   }),
   component: ContactPage,
 });

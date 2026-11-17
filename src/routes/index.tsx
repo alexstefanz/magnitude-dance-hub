@@ -1,3 +1,4 @@
+import { seoHead, SEO } from "@/config/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/layout/SiteLayout";
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -9,23 +10,11 @@ import { ReviewSlider } from "@/components/sections/ReviewSlider";
 import { UpcomingEventsSection } from "@/components/sections/EventsSection";
 import { SocialSection } from "@/components/sections/SocialSection";
 
-// SEO title/description kept identical to the previous magnitudedance.ro page.
-const title = "Magnitude Dance Iași | Cursuri Salsa, Bachata, Kizomba & Petreceri";
-const description =
-  "Descoperă comunitatea Magnitude Dance din Iași – cursuri de salsa, bachata, kizomba pentru toate nivelurile, social party-uri, coregrafii și evenimente internationale. Energie, pasiune și vibe autentic!";
+const description = SEO["/"].description;
 
 export const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
+    ...seoHead("/"),
     scripts: [
       {
         type: "application/ld+json",

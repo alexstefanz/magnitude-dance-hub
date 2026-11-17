@@ -1,3 +1,4 @@
+import { seoHead } from "@/config/seo";
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, SiteLayout } from "@/components/layout/SiteLayout";
 import { WhyMagnitude } from "@/components/sections/WhyMagnitude";
@@ -5,22 +6,10 @@ import { InstructorsIntroSection } from "@/components/sections/InstructorsSectio
 import { ReviewSlider } from "@/components/sections/ReviewSlider";
 import cosminPhoto from "@/assets/cosmin-despre.png";
 
-const title = "Despre Magnitude Dance | Povestea & Viziunea noastră";
-const description =
-  "Cunoaște echipa Magnitude Dance: Ștefan Cosmin Ioneasa și instructorii noștri pasionați. Află cum a început aventura dansului și cum construim o comunitate bazată pe energie, evoluție și socializare.";
 
 export const Route = createFileRoute("/despre-noi")({
   head: () => ({
-    meta: [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: title },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { property: "og:url", content: "/despre-noi" },
-    ],
-    links: [{ rel: "canonical", href: "/despre-noi" }],
+    ...seoHead("/despre-noi/"),
   }),
   component: AboutPage,
 });
